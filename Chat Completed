@@ -1,0 +1,252 @@
+Completed lecture work
+Entries are appended after verification; pending suggestions remain in Chat To Do.
+
+Completed 2026-10-05 — requested slide condensation
+
+1. Opening slides — slide 2 "Key Concepts | Evidence for a Decision", slide 3 "Marketing Analytics Process", slide 4 "Inferential Modeling Workflow", slides 6–7 "Motivating Example" / "Evaluate | What Would Convince Kroger?".
+Issue/evidence: Two orientation diagrams repeat familiar process context; two introductions repeat Kroger's soup-sales problem. The required learning-goals title is missing.
+Change: Replace the key-concept overview with actionable Today's Learning Goals; retain the more specific inference workflow; combine the Kroger introductions with magnitude, uncertainty, fit, and business/causal limitations intact.
+Effect: Fewer introductory slides; simulation and fitting code remain intact. No change to conceptual emphasis.
+Decision: Approve — user-requested condensation and standing learning-goals requirement.
+Status: Verified — inspected final Rmd source and Git diff on 2026-10-05.
+
+2. Model fit — slide 22 "Model Comparison" and slide 23 "Another Interpretation of R-Squared".
+Issue/evidence: Both slides define explained variation and discuss usefulness.
+Change: Combine definition, glance() example, high/low R-squared interpretation, and the limits of training fit in one slide.
+Effect: Removes a repeated explanation while preserving model-comparison preparation for Exercise 8. No change to conceptual emphasis.
+Decision: Approve — user-requested condensation.
+Status: Verified — inspected final Rmd source and Git diff on 2026-10-05.
+
+3. Prediction — slides 24–27, "Predict | Kroger's What If Question" and "Prediction" plus continuations.
+Issue/evidence: The prior-lecture spending table and current coupon example both explain supplying hypothetical inputs to predict sales.
+Change: Keep the fitted coupon example and spending-allocation context in a single prediction introduction; retain scenario creation, prediction, and prediction-interval chunks and the causal caveat.
+Effect: Removes the duplicate arithmetic illustration while retaining continuous-budget and binary-coupon scenario meanings. All code remains intact; no corresponding starter-code edit is triggered.
+Decision: Approve — user-requested condensation.
+Status: Verified — inspected final Rmd source and Git diff on 2026-10-05.
+
+4. Reflection and close — slide 29 "Science and Faith | Revising Our Understanding" and slide 31 "Wrapping Up".
+Issue/evidence: The reflection repeats the modeling workflow; the closing bullets repeat the opening concept inventory.
+Change: Shorten those recaps while retaining Mark 4:23, Moroni 10:3–5, assumption-dependent learning, revision of understanding, supplementary material, and next-class preparation.
+Effect: Retains the reflection's conceptual emphasis and leaves live coding intact.
+Decision: Approve — user-requested condensation.
+Status: Verified — inspected final Rmd source and Git diff on 2026-10-05.
+
+5. Concluding activity — slides 32–33 "Exercise 8" and continuation.
+Issue/evidence: The scenario is repetitive and the numbered instructions prescribe the analysis sequence.
+Change: State the glitch scenario once and give report deliverables: specified simulated variables/distributions, both model formulas, estimates and fit comparison, parameter recovery, counterfactual predictions, and rendered Word submission. Students choose the operation sequence.
+Effect: Keeps the same exercise requirements and the exercise as the final activity. Separate solution and Canvas artifacts remain pending/outside this edit scope.
+Decision: Approve — condensation plus standing semi-open-ended slide-exercise requirement.
+Status: Verified — inspected final Rmd source and Git diff on 2026-10-05.
+
+
+Verified evidence for entries 1–5: source reduced from 33 to 29 slides; prose token count (whitespace-delimited, excluding YAML and code) reduced from 1546 to 1232 (~20%). All 15 R chunks and YAML are unchanged; code fences balanced; referenced images exist; learning goals are first after title; Exercise 8 | The Client Report is the final slide. git diff --check passed. No rendering or publication performed. Final locations: goals 2, workflow 3, Kroger framing 5, model comparison 20, prediction 21–23, parameter recovery 24, reflection 25, live coding 26, wrapping up 27, exercise 28–29.
+
+Completed 2026-10-05 — approved suggestions #6–#8
+
+6. Starter code — 09-starter-code.qmd, Intervals and Significance / Another Interpretation of R-Squared / Prediction.
+Issue/evidence: Starter text interprets fit as story correctness and calls prediction intervals confidence intervals, unlike the existing Rmd's cautions and distinction.
+Proposal: Align those explanations with the slides, retaining the existing code and student practice.
+Effect: Would improve shared terminology; no code dependency requires it for this slide condensation.
+Decision: Approve — explicitly authorized by Cam on 2026-10-05.
+Status: Verified — final sources, diff, R syntax and execution inspected on 2026-10-05.
+
+7. Separate exercise solution — Exercise 8 Solution.qmd, context / Evaluate Model Fit / Prediction.
+Issue/evidence: Context says discount is cents, then prediction interprets it as thousands of dollars. It treats a non-significant coupon coefficient as evidence of no difference from zero and confuses prediction intervals with confidence intervals. Its "best fit" explanation also needs to distinguish rounded R-squared from a model-choice rationale.
+Proposal: Clarify consistent units, uncertainty, model selection, extrapolation, and the simulation's limits; align assignment prose with the final slide deliverables while retaining the existing five-point rubric.
+Effect: Requires review of downstream exercise wording before any Canvas publication.
+Decision: Approve — explicitly authorized by Cam on 2026-10-05.
+Status: Verified — final sources, diff, R syntax and execution inspected on 2026-10-05.
+
+8. Starter-code reduction — 09-starter-code.qmd, complete prior-material steps outside Your Turn.
+Issue/evidence: Lecture 06 teaches simulation with runif/rnorm, seeding, tibble, linear_reg/set_engine/fit, and tidy; lecture 04 teaches geom_jitter/geom_smooth. Current starter supplies all these completed steps. rbinom/binary interpretation, intervals, glance and predict are new here.
+Proposal: In a separately authorized starter-code update, select roughly half of eligible whole steps for placeholders, preserving setup, new concepts and Your Turn.
+Effect: Approved follow-up adds active student coding practice; three of seven eligible whole steps selected and removed as documented in the verification notes below.
+Decision: Approve — explicitly authorized by Cam on 2026-10-05.
+Status: Verified — final sources, diff, R syntax and execution inspected on 2026-10-05.
+
+Verification notes for #6–#8
+#6: Aligned confidence-interval interpretation and two-sided 5% significance with the slides; added the non-significance limitation. Combined R-squared explanations to match the condensed slides and retained the training-fit, causal and generalization caveats. Distinguished individual-outcome prediction intervals from mean-response confidence intervals. Existing new-concept code remains; the only supplied-code removals are the separately approved #8 steps.
+#7: Student-facing instructions now match the final slide exercise. Discount and sales interpretation consistently uses dollars. Kept five one-point rubric categories; clarified the existing model-choice criterion to accept a justified rationale when fit alone does not distinguish models. Both models recover parameters approximately; a non-significant intended-coupon coefficient does not prove zero effect or reveal what successfully delivered coupons would do. Distinguished rounded/unrounded training R-squared and explained why high fit depends on the selected signal/error. Chose the known-mechanism discount-only model; used $5, $10, $15, $20 scenarios within the simulated range and explained extrapolation limits. Correctly described prediction intervals and the simulation/causal limitations.
+#8: Reviewed Lecture 06 sections Simulate Ben & Jerry's Spending, Using tidymodels, Fit the Model and Inspect the Model, and Lecture 04 Visualize Continuous Data. Seven eligible whole steps outside Your Turn were: (1) continuous-data simulation, (2) continuous-data plot, (3) binary-data plot, (4) discount-model fit, (5) coupon-model fit, (6) discount-model coefficient table, (7) coupon-model coefficient table. The latter examples reuse previously taught plotting/fitting/tidy patterns; their binary interpretation remains explicitly supplied. Removed steps 1, 2 and 4 (3/7 = 43%, roughly half) for a coherent simulation–visualization–fitting practice progression. Replaced each with a complete comment-only chunk describing the desired result, with no solution code. Retained package/seed/parameter setup, the new binomial simulation, all interval/glance/predict examples, and the entire Your Turn section unchanged. Separating setup from simulation and the two model fits leaves whole steps rather than partial implementations.
+Checks: tmp/lecture07-approved-qa/verify.R parsed all sources, executed all six solution chunks, and executed all supplied starter code with slide-derived fixtures for the two missing data/model dependencies (fixtures exist only in verification memory). Nineteen starter chunks include exactly three comment-only gaps. The incomplete student artifact was not expected to run end-to-end without completion. Both YAML headers and the Your Turn section match their originals; five rubric points remain; student instructions match slides; git diff --check passed.
+Numeric verification: R-squared 0.970976696 (discount-only) and 0.970979056 (plus coupon), a difference of 0.000002361. Coupon estimate 0.061517, 95% CI [-0.539593, 0.662627], p = 0.840727. At a $20 discount, predicted sales $110.305166, 95% prediction interval [$104.200981, $116.409351]; intervals for individual outcomes are wider than mean-response confidence intervals. Checks used the existing R 4.6.1 installation and Cam's installed tidyverse/tidymodels packages. No package installation, rendering, Canvas edits/uploads, commit or push occurred. Other checklist items remain pending at Cam's direction.
+
+2026-10-05 — Assessment before customer-data migration
+17. Assess current slides and the Lecture 06 data before copying or changing lecture materials.
+Decision: Approve — explicitly requested by Cam.
+Status: Verified — source, prior lecture, data dictionaries, provenance and read-only regression assessment inspected.
+Evidence: current source has 29 slides; Lecture 06 supplies home_goods_customers.csv (10,000 rows/17 columns) and data_dictionary.pdf/md. Its student CSV values match the upstream case CSV. Conventional fitted models on the same 9,800 customers confirm that income and Homeowner support continuous/binary interpretation, significance, R-squared and profile prediction. Mean-response confidence intervals are visibly narrower than individual prediction intervals. Current simulation-heavy opening duplicates previously taught preparation; existing glance() shows only one model; concluding coupon-glitch case would need adaptation.
+Recommendation: use historical customer spending as the main case, anchored to an outreach-planning/profile question; retain one brief explicitly separate simulation for parameter recovery. Data are semi-synthetic; do not describe them as real retailer observations or distribute hidden generation details. Reserve the zero-heavy CampaignSpend outcome and randomized Treatment for later lessons. Proposed design and downstream scope are recorded as #11–#16 in Chat To Do. Existing #9–#10 remain pending.
+No CSV/dictionary copies or slide/starter/solution edits were made in this assessment. No knitting/rendering, Canvas edits or Git publication performed. The externally changed 9-Evaluate-Model-Fit.html now contains the condensed lecture headings; index.html still has older headings. These generated outputs were inspected read-only and publication remains pending. Existing unrelated working-tree deletions remain untouched.
+Completed 2026-10-05 — approved customer-data migration #11–#16
+The preserved proposal below records the pre-approval assessment. Cam's decisions and the verified final implementation here supersede its deferred/pending statuses and recommended simulation option.
+
+11. Student data package.
+Decision: Alter / Approve — Cam approved only home_goods_customers.csv and data_dictionary.pdf; explicitly excluded data_dictionary.md and requested simple student materials.
+Change: Copied the CSV and PDF unchanged from Lecture 06 into the Lecture 07 repository root. No Markdown dictionary, extra provenance handout, or private generating files copied.
+Status: Verified — both SHA-256 hashes match their Lecture 06 sources; target Markdown dictionary is absent.
+
+12. Main applied case.
+Decision: Approve — explicitly authorized by Cam.
+Change: Replaced soup/coupon examples with a home-goods retailer planning customer outreach from historical spending profiles. One matched 9,800-customer sample supports income-only, homeowner-only and income-plus-homeowner models. Defined IncomeThousands and Homeowner precisely; taught dollar-unit continuous/binary interpretation, 95% coefficient intervals, significance and conditional associations. Your Turn asks students to correct an interval claim without displaying its answer. Preserved causal and historical-outcome limits.
+Status: Verified — all slide code parses and executes; numerical explanations agree with fitted results.
+
+13. Fit and prediction.
+Decision: Approve — explicitly authorized by Cam.
+Change: Compared income-only R-squared .394 with income-plus-homeowner .422 on identical customers; explained the 2.8 percentage-point improvement, unexplained variation and training-fit limitations. Predicted feasible $80,000-income owner/nonowner profiles. Distinguished coefficient confidence intervals, mean-response confidence intervals and individual-outcome prediction intervals, with assumptions and appropriate interpretation.
+Status: Verified — model rows, coefficients, intervals, R-squared and prediction values checked in R; individual prediction intervals are wider than mean confidence intervals.
+
+14. Simulation's remaining role and new exercise.
+Decision: Alter / Approve — Cam chose the alternative: remove simulation entirely and replace parameter recovery with correct confidence-interval interpretation. Cam expressly requested a business-motivated exercise fitting multiple models, comparing R-squared, interpreting the better model's coefficient intervals and generating appropriate prediction intervals.
+Change: Removed simulation and recovery from learning goals, slides, starter and solution. Exercise 8 now asks the retailer's outreach-planning question using income-only versus income-plus-household-size-and-homeowner models on the same complete cases. Students report fit improvement and limitations, interpret every slope's 95% coefficient interval holding other predictors fixed, and predict four specified household profiles with 95% individual prediction intervals. Deliverables specify the client report; students choose the analysis sequence.
+Status: Verified — exercise instructions match verbatim across slides, starter and solution. R-squared .3939356 versus .5030506; the four individual prediction intervals overlap. No simulation/recovery or obsolete coupon context remains in the three instructional sources.
+
+15. Discussion, conclusion and starter.
+Decision: Approve — explicitly authorized by Cam; exercise overlaps with #14.
+Change: Adapted the reflection and closing to the customer case; retained an open-ended high-value-household live-coding request. Exercise concludes the 28-slide lecture. Starter text and supplied code follow the slide sequence; Your Turn, live coding and exercise remain student work. Updated prior-material practice to the new case.
+Status: Verified — goals immediately follow title, live coding supplies no prescribed procedure, and exercise is last. Starter has 17 parsed chunks; 13 supplied chunks exactly match slide chunks in sequence. Two prior-material gaps and two open-ended activity chunks contain no answer code.
+Prior-material reduction: Four eligible prior-lecture whole steps are common-sample preparation/income scaling, income-model fitting, income-model tidy inspection, and multivariable profile-model fitting. Removed the first two (2/4 = 50%), each replaced by a complete comment-only desired-result chunk. Retained setup/import boilerplate, current-lecture binary examples, new interval/glance/predict concepts and Your Turn. The eligible set was reassessed against Lecture 06's new customer case; obsolete simulation/plotting steps no longer count.
+
+16. Separate exercise solution and rubric.
+Decision: Approve — explicitly authorized by Cam.
+Change: Replaced the old simulation solution with the customer-data exercise and six executable R chunks. Five one-point rubric categories cover preparation/both models, R-squared comparison, coefficient intervals, four individual prediction intervals, and the rendered client report/business interpretation. Income, household size and ownership are interpreted conditionally in dollar units. Recommendations recognize overlapping individual intervals and the limits of historical associations for outreach decisions.
+Status: Verified — solution instructions match the slide/starter exercise; all six chunks execute. Better-model slopes: IncomeThousands 2.42 (95% CI 2.36–2.48), HouseholdSize 46.87 (44.57–49.16), Homeowner 77.89 (71.37–84.41). Four predicted spending amounts: $750.65, $894.35, $972.24, $1,162.80, with approximate 95% individual intervals $447–$1,054; $591–$1,198; $669–$1,276; $859–$1,466.
+
+Final verification: tmp/lecture07-customer-migration-qa/verify.R parsed all 15 slide, 17 starter and 6 solution chunks; executed slides and solution, and supplied starter code with temporary in-memory slide fixtures for the two intentional review gaps. The starter requires students to complete those gaps before running downstream examples. Checked the shared 9,800 rows, all printed coefficient/interval/fit/prediction interpretations, feasible profiles, interval distinctions, exact exercise alignment and five-point rubric. git diff --check passed. Existing R 4.6.1 and installed tidyverse/tidymodels used; no packages installed and no document rendered.
+Final slide locations (title = 1): learning goals 2; workflow 3; outreach objective 4; setup/sample 5–6; continuous/binary examples 7–10; confidence intervals/significance/Your Turn 11–14; adjusted model and comparison 15–18; predictions and interval distinctions 19–22; reflection 23; open-ended live coding 24; closing 25; Exercise 8 26–28.
+Only approved source/data/tracking work was performed. Canvas edits/uploads, rendering, commits, pushes and Pages publication remain pending #9–#10 at Cam's direction. Existing generated HTML changes and unrelated working-tree deletions were preserved.
+
+Archived pre-approval assessment and full proposal text for #11–#16:
+Dataset migration assessment — 2026-10-05
+Cam requested the Lecture 06 CSV and dictionary be copied into Lecture 07 and the slides migrated to that dataset, but explicitly requested an assessment/discussion first. No data files were copied and no slide, starter or solution edits were made during this assessment. Implementation below is deferred until that discussion is resolved. Preserve prior pending items #9–#10.
+Read-only evidence: inspected current 29-slide Rmd, current starter and solution, Lecture 06 slides/exercise, all 17 dictionary variables and time windows in both Markdown and PDF, and instructor dataset provenance/teaching guide. CSV is 10,000 rows; 200 missing incomes yield 9,800 matched complete cases for the proposed income/homeowner/household-size models. Lecture 06's CSV has the same parsed data values as the upstream student CSV. These are semi-synthetic data for a fictional retailer, not observed real retailer results. Instructor generation details must remain outside student materials.
+Recommended business objective: Before planning customer outreach, describe which household profiles are associated with higher past spending, how certain those differences are, and how much individual spending remains unexplained. Do not claim historical associations identify who would buy because of an outreach action, or that profile predictions are forecasts of the next year's spending.
+
+11. Student data package — Lecture 06 home_goods_customers.csv, data_dictionary.pdf and editable data_dictionary.md; Lecture 07 repository root.
+Issue/evidence: Lecture 07 currently has none of these files; Lecture 06's authoritative source references this CSV/PDF. The student case identifies semi-synthetic provenance and carries an attribution/modification notice that should accompany redistribution.
+Proposed change: When implementation begins, copy the three Lecture 06 files unchanged; retain the accompanying student provenance/attribution notice in an appropriately named handout or README section. Do not copy private instructor truth or generating files.
+Effect: Supports slide/starter paths in #12/#15 and subsequent student distribution. No new analytical concept.
+Decision: Approve — CSV/dictionary copy expressly requested, but deferred until the requested assessment discussion. Packaging the existing accompanying provenance is part of the proposed implementation.
+Status: Needs update — assessment completed; copies not yet made.
+
+12. Main applied case — current slide 2 Today's Learning Goals; slide 5 Evaluate | What Would Convince Kroger?; slides 6–19 Getting Started through Intervals and Significance, including Simulation Review, Fit the Model, Parameter Estimates, How Do We Interpret Our Models?, and Your Turn!.
+Issue/evidence: Most substantive examples repeat simulation/fitting and switch between discount and coupon on separate artificial samples. Lecture 06 already fits PreviousSpend ~ IncomeThousands to these customers and explicitly saves interpretation of the remaining tidy() columns for the next lecture.
+Proposed change: Continue that fitted relationship and customer context. Replace the main soup simulations with a brief data/setup reminder and models for PreviousSpend using IncomeThousands and Homeowner (0 = does not own the primary residence; do not equate all nonowners with renters). Use one matched sample for comparisons. Interpret intercepts/slopes, the binary reference group, estimates/standard errors/intervals/significance in dollars, with the current uncertainty and causal caveats. Your Turn should use customer-model interpretation, without displaying an exercise solution.
+Effect: Maintains continuous/binary interpretation and intervals, reduces simulation recap, and connects directly to Lecture 06. Requires corresponding starter changes in #15. No new statistical technique is needed.
+Decision: Approve — dataset migration of slides expressly requested; detailed sequence remains reviewable via Approve / Alter / Reject before implementation.
+Status: Needs update — implementation deferred for assessment discussion.
+
+13. Fit and prediction — current slide 20 Model Comparison and slides 21–23 Prediction/continuations.
+Issue/evidence: Current glance() example only displays one fit, and predictions are coupon interventions disconnected from the incoming customer case. Dataset has no discount, coupon or promotional-budget variables.
+Proposed change: Compare income-only and income-plus-homeowner regressions on the same 9,800 rows; retain R-squared limitations and defer validation/omitted-variable detail to their later lectures. Predict model-implied historical spending for feasible customer profiles, preserving individual-outcome prediction intervals and their distinction from mean confidence intervals. Avoid implying that raising income or changing ownership is a retailer intervention, that predicted past spending is a future forecast, or that demographic associations prove targeting effectiveness.
+Effect: Shows an actual comparison and the practical importance of uncertainty without broadening into campaign modeling. Slide-code changes propagate to starter #15.
+Decision: Pending design recommendation — Approve / Alter / Reject; migration itself requested, assessment precedes implementation.
+Status: Needs update — proposed only.
+
+14. Simulation's remaining role — current slide 24 Recover Parameters and the parameter-recovery bullet on slide 2.
+Issue/evidence: Parameter recovery requires known generating values; student-facing customer data do not reveal the true process. Instructor knowledge of the semi-synthetic generator should not be presented as something students can discover from the CSV. A simple model's income slope is a marginal association, not automatically the hidden full-model coefficient.
+Proposed change (recommended): Keep one short, explicitly labeled simulation demonstration using familiar income/spending names to compare known chosen parameters with estimates/intervals. Remove the long simulation review as the main case. Keep this demonstration distinct from the semi-synthetic customer analysis; do not reveal hidden generating coefficients. Alternative: remove simulation entirely, but then revise the recovery goal and exercise because known-parameter recovery would no longer be taught/practiced.
+Effect: Recommended version preserves the taught concept while shifting it from the main analytical story to a brief controlled demonstration. Removing it entirely changes conceptual emphasis and is a broader revision requiring Cam's explicit choice.
+Decision: Pending — Approve / Alter / Reject.
+Status: Needs update — simulation choice awaiting discussion.
+
+15. Discussion, conclusion and starter — current slide 25 Science and Faith | Revising Our Understanding, slide 26 Live Coding, slide 27 Wrapping Up, slides 28–29 Exercise 8 / The Client Report; 09-starter-code.qmd throughout.
+Issue/evidence: Current reflection, live-coding scenario and exercise all return to Kroger/coupon glitches; starter Your Turn also uses simulated coupon/ad data. Those contexts would break continuity after the main case moves to customer data.
+Proposed change: Adapt reflection/summary to the customer story. Frame live coding as an open-ended request from the home-goods retailer, with students choosing definitions, variables and analysis. End with a semi-open-ended client report interpreting coefficients and uncertainty, comparing specified customer models and explaining profile predictions/limitations. Preserve the concluding exercise position. Carry approved slide-code/data changes into starter scaffolding, with roughly half of eligible prior-material steps left for students; reevaluate eligibility against the final case instead of blindly retaining obsolete soup placeholders. Updating Your Turn to the new context is a distinct contextual adaptation, not part of the prior-step removal count.
+Effect: Slide/starter propagation is part of the requested code migration; the separate exercise solution/rubric is #16. Exact learning goals/deliverables depend on the simulation choice in #14.
+Decision: Pending design recommendation — Approve / Alter / Reject; carry-through of authorized slide-code changes is required by the skill once implemented.
+Status: Needs update — proposed only.
+
+16. Separate exercise solution and rubric — Exercise 8 Solution.qmd.
+Issue/evidence: The existing solution/rubric grades a coupon-glitch simulation with known parameters; it will not align with the proposed customer-data exercise in #15.
+Proposed change: After explicit approval of this separate artifact, replace the solution with the agreed customer models, interpretations and predictions; keep a five-point rubric but align its categories with the agreed learning goals. If simulation is retained only as a brief lecture demonstration, do not grade recovery of unknown customer-data parameters as though they were observed truth.
+Effect: Supersedes the completed #7 solution's context; Canvas descriptions and uploads remain pending #9, publication #10. Changing this separate artifact is not automatically authorized by the new slide request.
+Decision: Pending — Approve / Alter / Reject.
+Status: Needs update — outside the named slide/copy request until approved.
+
+Assessment calculations: tmp/lecture07-data-assessment/assess.R (base R, no rendering). On the matched 9,800 rows: income-only slope 2.569739 with 95% CI [2.506619, 2.632859], R-squared .3939356. Homeowner-only group difference $118.8066 with 95% CI [$109.9670, $127.6463], R-squared .06615344. Income-plus-homeowner R-squared .4216936; its homeowner coefficient $77.8068 is conditional on income, unlike the unadjusted group difference. Income-plus-household-size R-squared .4752325; adding homeowner yields .5030506, an optional extension rather than necessary main-case complexity. At $80,000 annual income, the income-only model implies $965.9990 historical spending: 95% mean confidence interval [$962.5181, $969.4799] versus individual prediction interval [$630.8142, $1301.1838], under the fitted model assumptions. About 79.93% of CampaignSpend is zero; Conversion is binary. Recommend reserving campaign outcomes/randomized-treatment interpretation for later material to keep conventional linear-model interval teaching focused.
+
+
+
+Completed 2026-10-05 — general interpretation rules
+
+18. General predictor interpretation slides — before the IncomeThousands and Homeowner interpretation examples.
+Request: Cam asked for a general rule for continuous predictors followed by the spending-model income example, plus the equivalent general slide for binary predictors.
+Decision: Approve — explicitly requested on 2026-10-05. Keep aligned starter notes under the existing approved #15 scope.
+Change: Add concise general formulas and coefficient interpretations, then retain clearly named applied examples. Preserve fitted results and R code.
+Status: Verified — continuous general rule is slide 8, followed by IncomeThousands example on slide 9; binary general rule is slide 11, followed by Homeowner example on slide 12. Starter notes match both general slides. All R chunks unchanged (before/after SHA-256 comparison); scoped source diff check passed. Source now has 30 slides; goals remain first after title and exercise ends slides 28–30. No rendering or publication performed. A repository-wide diff check found whitespace in externally modified generated HTML; that artifact was left untouched.
+
+Completed 2026-10-06 — Greek interpretation notation
+
+19. Greek notation on predictor interpretation slides — 2026-10-06.
+Request: Use Greek letters on the interpretation slides to avoid introducing confusing notation.
+Decision: Approve — directly requested by Cam; corresponding starter notes retain alignment under approved #15.
+Change: Replaced b_0 and b_1 with LaTeX beta_0 and beta_1 in the continuous and binary general-rule equations and coefficient explanations in the authoritative Rmd and starter Qmd. Preserved all current user wording, numerical examples, headings and code.
+Status: Verified — reversible text comparison confirms only the requested notation changed in both sources; scoped source diff check passed. No rendering, Canvas edits or publication performed. Pending #9–#10 unchanged.
+
+Completed 2026-10-06 — hypothetical t-distribution illustration
+
+20. Hypothetical homeowner coefficient distribution — 2026-10-06.
+Request: Fill Cam's new coefficient-table slide, add a labeled ggplot histogram, then repeat with the central 95% highlighted. Latest steering replaces 100 normal draws with 500 t-distribution draws.
+Decision: Approve — directly requested; this explicitly authorizes a new conceptual sampling illustration after the earlier removal of simulation/parameter recovery. Corresponding code and notes must propagate to starter.
+Change: Use the unadjusted fit_owner coefficient estimate and standard error, with its residual degrees of freedom. Dataset labels 1–500 and beta_1_estimate form a two-column hypothetical table; plots reuse these same draws. Show sampled 2.5%/97.5% quantiles and original model confidence bounds, explaining sampling variation and coefficient-versus-customer uncertainty. Preserve Cam's surrounding slides and the existing exercise.
+Status: Verified — all slide/starter code parses; all slide code executes. Table has exactly 500 rows and two columns; sampled values equal estimate + standard error * rt(500, residual df) using seed 20261006. Both plots reuse identical histogram bins/counts and are visually inspected. All four new chunks match starter code. Scoped source diff check passed. Plot/table output was checked without knitting the lecture or modifying generated slide HTML.
+Verification: tmp/lecture07-coefficient-illustration-qa/verify.R uses Cam's existing installed R packages. fit_owner estimate 118.8066, SE 4.509554, residual df 9798. Theoretical shifted/scaled t quantiles equal the original CI [109.9670, 127.6463]; empirical 500-draw quantiles are [109.5819, 127.0407]. This illustrates coefficient uncertainty, not customer-spending ranges or an actual repeated-data experiment. HTML table includes all 500 rows in a scrolling viewport; plot titles, dollar units, group comparison, counts and interval boundaries are labeled. ASCII range wording in plot labels avoids locale-related text rendering problems; Greek beta is rendered with plotmath. The existing client exercise, solution and rubric remain unchanged. Full-deck rendering, Canvas and Git publication remain pending #9–#10.
+Current source: 35 slides; 19 slide R chunks; 21 starter R chunks.
+
+
+Completed 2026-10-06 — streamlined income follow-on examples
+
+21. Streamline slide 20 onward — 2026-10-06.
+Request: Cam revised slides 13–19 into a fuller homeowner confidence-interval walkthrough and asked to remove redundant examples/discussion from slide 20 onward, using the income model for subsequent examples.
+Decision: Approve — directly requested. Corresponding changed slide code propagates to starter under the skill and approved #15.
+Plan: Preserve slides 1–19 verbatim. Retain a concise repeated-sampling explanation; apply coefficient intervals/significance and Your Turn to income; remove repeated homeowner/profile interval interpretation; consolidate R-squared and prediction setup; use income-only profiles for point/mean/individual predictions. Preserve current model-comparison learning goals, open-ended live coding and concluding exercise.
+Status: Verified — slides 1–19 unchanged by SHA-256 comparison; slide 20 onward reduced from 17 to 14 slides (36 to 33 total). Combined the two R-squared slides, removed the repeated profile-coefficient interval slide and combined prediction setup/output. Income-only coefficient intervals and predictions now carry the follow-on examples. Shared-sample model comparison, all three interval types, open-ended live coding and the concluding exercise retained.
+Verification: tmp/lecture07-income-followon-qa/verify.R parses and executes all 14 slide chunks and 19 starter chunks; starter execution uses temporary in-memory fixtures for the existing two review gaps. Follow-on supplied starter chunks match revised slide code. Income slope interval $2.51–$2.63, R-squared .394 versus .422, and predictions $863.21 / $966.00 / $1,068.79 at incomes $40,000 / $80,000 / $120,000 verified. Individual prediction intervals are wider than mean-response confidence intervals. Existing exercise instructions match the untouched solution; source diff check passed. No lecture rendering, generated HTML edit, Canvas write or Git publication performed. Earlier starter sections preserve their pre-existing version and require separate reconciliation with Cam's latest walkthrough (pending #23). Earlier p-value misconception is flagged separately (#22); no edit outside the requested boundary.
+Current follow-on slide locations: 20 coverage, 21 income CI/significance, 22 Your Turn, 23 add homeownership, 24 R-squared comparison/limits, 25 income profiles/predictions, 26 individual prediction intervals, 27 three interval types, 28 reflection, 29 live coding, 30 closing, 31–33 exercise.
+
+Completed 2026-10-06 — full starter alignment and p-value review
+
+23. Reconcile starter sections before slide 20 with Cam's latest walkthrough.
+Issue: Starter retains the previously approved 500-draw illustration and earlier point-estimate/interval notes, while Cam's current slides 13–19 use a new homeowner p-value and confidence-interval walkthrough. This turn aligned only the requested slide-20-onward sections and their changed code.
+Proposal: After resolving #22, propagate Cam's final earlier walkthrough to corresponding starter notes/code while preserving the two review gaps and open-ended activities.
+Decision: Approve — Cam explicitly requested full starter alignment on 2026-10-06.
+Status: Verified — entire starter updated, retaining its YAML, two prior-material review gaps and two open activity chunks. All 32 section headings and 12 supplied R chunks match current slides in order. Obsolete simulation and obsolete interval notes removed. P-value prose states the precise null-conditional, at-least-as-extreme definition; corresponding slide correction remains pending #22.
+Verification on 2026-10-06: tmp/lecture07-full-starter-qa/verify-draft.R parses/executes all 14 slide chunks and all 16 starter chunks with temporary in-memory fixtures for the two review gaps. Two other comment-only chunks support live coding and the final exercise. Sample, coefficient intervals, R-squared, income predictions and mean/individual interval widths verified. The final prose-only p-value clarification changed no executable code; final file equals the checked draft and a structural comparison confirms all section headings and supplied code. Exercise instructions still match untouched solution. Prior-material reduction remains 2/4 eligible steps (50%). Slide source hash unchanged throughout this review. No render, Canvas write, package installation, commit or publication.
+
+24. Check Cam's revised p-value explanation — 2026-10-06.
+Decision: Approve — directly requested review, not automatic authorization to edit slides.
+Status: Verified — revised example now correctly conditions on a zero true coefficient, but still says probability of an estimate exactly equal to 1.25. Correct definition concerns a test statistic at least as extreme as observed in either direction for a two-sided test. Opening questions on slides 14–15 still ask for the probability the null is true. The 5% conventional significance threshold is valid. Explained the remaining issues and requested approval for concrete slide wording. Correct definition is included in the authorized starter update; slide correction itself remains pending #22.
+
+25. Check latest p-value explanation — 2026-10-06.
+Request: Cam asked for a correctness check after revising the slide text again.
+Decision: Approve — read-only review explicitly requested.
+Status: Verified — slides 14–15 now correctly condition on no relationship and refer to an estimate at least as large as observed. The remaining issue is direction: this describes a one-sided upper-tail test, whereas the lm coefficient p-value shown on slide 16 is two-sided. Explain a test statistic at least as extreme as observed in either direction, conditional on a zero true coefficient and the model assumptions. Using the t-statistic rather than the raw coefficient also accounts for its standard error. Use beta-hat for the observed estimate and beta for the fixed true coefficient if retaining the notation. The p <= .05 conventional significance threshold is appropriate.
+Reference checked: official R summary.lm documentation, https://stat.ethz.ch/R-manual/R-devel/library/stats/html/summary.lm.html, confirms coefficient p-values are two-sided.
+No lecture, starter or generated output edits were made in this review. Pending slide correction #22 remains unresolved; prior reverse-conditional and exact-value issues are now resolved by Cam's edits.
+
+26. Recheck latest p-value explanation — 2026-10-06.
+Decision: Approve — directly requested read-only review.
+Status: Verified — revised example now includes both positive and negative tails and correctly conditions on a zero true coefficient. Remaining setup questions on slides 14–15 still say 'at least as large', which suggests one-sided inference; use 'at least as far from zero, in either direction'. For exact lm inference, the probability concerns the t-statistic (estimate divided by standard error), not raw coefficient thresholds across samples with changing standard errors. The +/-1.25 coefficient illustration conveys the two-sided idea when its standard error is held fixed. Conventional 5% significance threshold remains correct. No slide or starter edits made.
+
+Completed 2026-10-06 — repeated-sample confidence-interval coverage
+
+27. Illustrate 95% confidence-interval coverage — 2026-10-06.
+Request: Add two slides after What Does 95% Mean?: preview estimates from 100 hypothetical customer samples and show all 100 point estimates/confidence intervals against a hypothetical true coefficient, with 95 intervals containing that value.
+Decision: Approve — directly requested. This explicitly authorizes a repeated-sampling demonstration; corresponding new code/text propagates to starter.
+Change: Set hypothetical true homeowner coefficient to $120; independently simulate 100 samples of 200 customers and refit the linear model each time. Preview six estimates/intervals including covering and missing examples; plot all 100 confidence intervals and point estimates with the fixed truth marked. Explain that this illustrative run has exactly 95 covers but another run can differ.
+Status: Verified — added two slides immediately after What Does 95% Mean? (new slides 21–22). All 100 sample-and-refit estimates and 95% intervals match independently computed lm/confint results. Seed 20261006 naturally gives 95 covers and 5 misses; no interval was fabricated or adjusted. Six-row table includes four covering and two missing examples. Plot displays all 100 estimates/intervals, marks hypothetical true $120 and distinguishes covering/missing intervals. Preview visually inspected; source diff check passed.
+Verification: tmp/lecture07-coverage-qa/verify.R parses and executes all 17 slide chunks and 19 starter chunks with temporary fixtures for the existing two student review gaps. All 34 section headings and 15 supplied R chunks match in order. Each hypothetical sample has 200 independent customers; Homeowner ~ Bernoulli(.5), spending = 900 + 120*Homeowner + Normal(0,220) error. All repeats are separately fitted; coefficient intervals use the fit's t-distribution. Coverage classification is recomputed from interval endpoints, not assigned for appearance. First tested seed 20261006 gives exactly 95/100 coverage, as requested. Explicit slide text says the true value is hypothetical and other runs can have different counts. No inference about the actual customer dataset's true coefficient is claimed.
+Starter supplied coverage code retained because repeated-interval coverage is a new current-lecture demonstration. The previously approved two-of-four prior-material gaps (50%) and open-ended activities remain intact. Existing exercise and solution are unchanged. Plot preview: tmp/lecture07-coverage-qa/coverage.png. No full-deck render, generated HTML edit, Canvas write, commit or publication performed. Existing pending #9–#10 and #22 remain pending.
+
+Completed 2026-10-06 — HTML table/coverage plot layout
+
+28. Correct local HTML coverage-table/plot layout — 2026-10-06.
+Request: Inspect HTML rendering issues in the new table, remove the slide-22 title, enlarge the plot, and arrange estimates in ascending order so coverage/misses are easier to see.
+Decision: Approve — directly requested local HTML review and correction; update source, corresponding starter and local rendered HTML for review. Canvas/GitHub/Pages publication remain pending #9–#10.
+Evidence: Existing HTML table headers merge dollar-sign-delimited text into math, leaving malformed headings. Slide 22 has both a slide title and plot title, consuming plotting space. Browser inspection of file:// was blocked by the browser URL security policy; no workaround browser access attempted. Safer verification uses offline HTML parsing, embedded-image inspection and generated plot previews.
+Change: Explicit HTML table output with dollar-free headers and Yes/No coverage labels; scoped table spacing. Hide the slide heading in HTML, enlarge the plot and sort by coefficient estimate, labeling the vertical position as rank rather than original sample ID. Preserve all 100 original estimates/intervals and the 95/5 coverage count. Carry code/notes into starter.
+Status: Verified — authoritative source, scoped style.css, corresponding starter and local 9-Evaluate-Model-Fit.html updated. Rendered HTML table has five intact headers, six rows and 30 cells with correct Greek encoding and no accidental math. Slide-22 heading is hidden by scoped CSS; plot has a larger 6.1-inch source height, capped at 560 displayed pixels to fit the slide. Estimates sorted ascending with smallest rank at bottom. All 100 original estimates/intervals and 95/5 coverage count preserved. Actual HTML-embedded plot visually inspected offline. Browser-level screenshot/layout inspection unavailable because file:// is blocked by browser URL policy; no browser workaround attempted.
+Verification: tmp/lecture07-html-layout-qa/verify.R parses/executes all 17 slide and 19 starter chunks with temporary review fixtures. All 34 section headings and 15 supplied code chunks match; independent lm/confint checks still pass. Sorted plot rank is 1–100, coefficients are nondecreasing, original sample identities/intervals are preserved and all 100 points/segments are present. Source/style diff check passed.
+Rendering: used existing R 4.6.1, rmarkdown 2.31, knitr 1.51 and RStudio's bundled Pandoc 3.10; no installs. Final successful render ran from the lecture folder with a per-process UTF-8 LC_CTYPE, preventing Greek labels from becoming U+ escape text. Rendered first to tmp/lecture07-html-layout-qa/lecture-layout-preview.html, verified HTML headers/cell counts, scoped CSS/class targets and the 1920x1171 embedded PNG, then copied the validated result to the lecture's named HTML; SHA-256 hashes match. The prior named HTML is preserved in tmp/lecture07-html-layout-qa/9-Evaluate-Model-Fit-before.html. Interim render-path/placeholder problems were resolved by rendering to a separate preview from the lecture working directory. Full browser viewport geometry is unverified because of the URL policy; verification used safer offline parsing and rendered-image inspection.
+Only local rendered HTML was requested/updated. index.html, Canvas, GitHub and Pages remain unchanged; publication portions of #10 and Canvas #9 remain pending. P-value correction #22 remains pending. Existing external working-tree deletions were preserved.

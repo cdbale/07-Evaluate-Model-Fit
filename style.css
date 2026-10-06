@@ -2,3 +2,47 @@ slides>slide.title-slide {
     background-image: url("Figures/hex_background.png");
     background-size: 100% 100%;
 }
+
+.coverage-table table {
+    width: 100%;
+    font-size: 20px;
+    line-height: 1.2;
+}
+
+.coverage-table p {
+    font-size: 20px;
+    line-height: 1.3;
+    margin-bottom: 14px;
+}
+
+.coverage-table th,
+.coverage-table td {
+    padding: 8px 12px;
+    white-space: nowrap;
+}
+
+slides > slide:has(> article.coverage-plot) > hgroup {
+    display: none;
+}
+
+slides > slide > article.coverage-plot {
+    margin-top: 0;
+}
+
+slides > slide > article.coverage-plot > p:first-child {
+    margin-bottom: 0;
+}
+
+slides > slide > article.coverage-plot img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: 560px;
+    margin: 0 auto;
+}
+
+slides > slide > article.coverage-plot > p:last-child {
+    margin-top: 8px;
+    font-size: 18px;
+    line-height: 1.25;
+}

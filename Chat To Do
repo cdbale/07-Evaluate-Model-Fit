@@ -1,0 +1,50 @@
+Agent review — 2026-10-05
+Scope: Condense the authoritative slide source without losing key concepts, complete Cam's approved suggestions #6–#8, and migrate Lecture 07 to the Lecture 06 customer dataset under approved #11–#16. All authorized local work is verified in Chat Completed. Cam explicitly left other items pending. Local HTML rendering/layout correction was requested and completed in #28; external publication remains pending. Lecture repository verified: 07-Evaluate-Model-Fit; main at baseline 11cac9d, tracking origin/main.
+Current authoritative source has 35 slides; final slide locations and checks are recorded in Chat Completed. Local named HTML regenerated and checked offline in #28; index.html and published slides remain unchanged.
+
+AUTHORIZED WORK — #1–#8 and #11–#16 verified; assessment #17 and requested general-rule slides #18 verified. See Chat Completed for preserved entries, user decisions, implementation and numerical verification. Only CSV and PDF copied. Earlier simulation/recovery exercises were removed; Cam subsequently authorized #20, a 500-draw hypothetical coefficient-distribution illustration. Greek notation #19 and historical illustration #20 are verified in Chat Completed. Cam later replaced that illustration with the current homeowner walkthrough; requested streamlining from slide 20 onward is completed #21. Newly requested 100-sample confidence-interval coverage illustration and matching starter code are completed #27.
+
+PENDING SUGGESTIONS — NOT AUTHORIZED
+
+9. Canvas exercise and grading descriptions — Fall 2026 MKTG 411-001/002, course 38688; Exercise 8 (1452115), Grade Exercise 8 (1452133).
+Issue/evidence: Exercise 8 description is empty; Grade Exercise 8 lacks the rubric-in-solution note. The local solution contains a five-point rubric.
+Proposal: After separate authorization and exercise reconciliation, save the final instructions and add the rubric note; verify readbacks.
+Effect: Canvas assignments are read-only for this request. The revised exercise instructions, rubric note, starter, solution, CSV and PDF await separately authorized Canvas distribution.
+Decision: Pending — Approve / Alter / Reject.
+Status: Needs update — outside requested slide scope.
+
+10. Publication — generated HTML, GitHub main, GitHub Pages, Canvas lecture link.
+Issue/evidence: Existing index.html and 9-Evaluate-Model-Fit.html predate the current source and omit its newer context. Condensed Rmd requires a future render/deployment to change the published slides.
+Verified read-only evidence: Canvas Inference module item 3180658 (07 - Slides) links to https://cdbale.github.io/07-Evaluate-Model-Fit/. A fresh HTTP fetch returned 200 and the old 29-slide HTML, without Today's Learning Goals or the new Exercise 8 report heading. This was read-only evidence before migration; the final customer-data source now has 35 slides. Published output has not been regenerated or rechecked in this migration turn. An older Canvas HTML attachment remains at module item 3180659 / file 13545280. Current Canvas starter file: 09-starter-code.qmd, 13545278; solution file: Exercise 8 Solution.qmd, 13545277.
+Proposal: If requested, render and verify, commit/push only intended changes, verify Pages and update/read back the Canvas slide link as needed.
+Effect: Depends on a separately authorized render and express GitHub permission; publishing is outside this request.
+Decision: Pending — Approve / Alter / Reject.
+Status: Blocked — local named HTML render is complete in #28; GitHub/Pages publication and any Canvas hyperlink update still await authorization. Published index.html has not been updated.
+
+FINAL LOCAL SKILL CHECKLIST AUDIT — 2026-10-05
+All requested local source/data work and approved suggestions are verified. Canvas and Pages evidence below comes from the preceding read-only review; no fresh external calls or writes occurred during the migration. Cam explicitly left #9–#10 pending.
+1. Slides: Verified — authoritative Rmd has 35 slides, goals immediately after title, coherent historical customer-spending case, no parameter-recovery exercise, Cam's current homeowner uncertainty walkthrough and requested 100-sample coverage illustration, open-ended live coding and concluding exercise. All 17 R chunks parse/execute; dollar units and numerical interpretations checked. Local named HTML rendered for #28; table structure and embedded sorted plot inspected offline. Browser-level visual inspection unavailable due file:// policy.
+2. Exercise alignment: Verified — final student instructions match verbatim in slides, starter and solution. Business objective, shared rows, two models/R-squared, better-model coefficient intervals and four individual prediction intervals align. All six solution chunks execute; five one-point rubric categories checked.
+3. Starter-code alignment: Verified — complete starter has the same 34 section headings and 15 supplied R chunks as current slides; 19 total chunks include two prior-material review gaps and two open activities. All code parses/executes with temporary in-memory review fixtures. Obsolete simulation removed; exercise and Greek notation retained. P-value prose is clarified in starter; corresponding slide correction awaits decision (#22). Completed #23; review completed #24.
+4. Prior-material starter reduction: Verified — four eligible whole steps reassessed for the Lecture 06 customer case; sample preparation/scaling and income-model fitting removed (2/4 = 50%). Setup, new interval/fit/prediction concepts and Your Turn retained/adapted. Complete comment-only placeholders describe desired results without solution code.
+5. Canvas exercise description: Needs update — previously verified empty Exercise 8 description in course 38688, assignment 1452115; revised customer exercise remains local. No write authorized (suggestion 9).
+6. Canvas rubric note: Needs update — Grade Exercise 8, assignment 1452133, lacks the note in the preceding review; final local five-point rubric verified. No write authorized (suggestion 9).
+7. Student materials upload: Needs update — revised starter and solution and new CSV/PDF have not been uploaded. Previously identified Canvas starter file 13545278 and solution file 13545277 have not been replaced. Pending at Cam's explicit direction (suggestion 9).
+8. GitHub submission: Blocked — main tracks origin/main at baseline 11cac9d; authorized Rmd/starter/solution/data/tracking changes remain local, uncommitted and unpushed. Local named HTML render complete; awaiting express GitHub/Pages publication permission (suggestion 10).
+Working-tree caution: 9-Evaluate-Model-Fit.html had prior external changes and was regenerated from current source for approved #28, with a prior copy preserved; deletions of live-coding-example.qmd, simulation_evaluation.docx, simulation_evaluation.qmd and soup_data.csv are external changes. The agent did not delete or restore those externally deleted files. Resolve intended inclusion before any future authorized commit. Approved-file verification does not depend on them.
+9. Canvas slide hyperlink / Pages verification: Needs update — saved link previously inspected; published HTML predates customer-data source. Rendering/publication and any Canvas hyperlink update remain pending (suggestion 10).
+
+USER REQUESTED CHANGES
+(Reserved for Cam's additions; no user-authored content existed when this file was created.)
+
+22. Correct pre-boundary p-value interpretation — slide 15 Handling Model Uncertainty (and matching setup question on slide 14).
+Issue: Slide 15 says p = .30 means a 30% probability that the true relationship is zero. A p-value instead conditions on the null hypothesis and model assumptions; it is not the probability that the null is true. The setup asks for that reverse conditional probability.
+Proposed correction: Ask how surprising an estimate this far from zero would be if the true coefficient were zero. Explain that p = .30 means a 30% probability of a test statistic at least as extreme as the observed one under that null and its assumptions, not a 30% probability of no relationship.
+Decision: Pending — Approve / Alter / Reject. Outside Cam's requested slide-20-onward boundary.
+Effect: Corrects a substantive inference misconception without changing the fitted homeowner examples.
+Status: Needs update — latest review completed #26. Example now includes both tails and conditions correctly on the null. Setup questions still say at least as large; use at least as far from zero in either direction. Exact lm p-value refers to the t-statistic, accounting for standard error. Starter already uses that definition. No slide edits in this review.
+
+Latest review of #22 — 2026-10-06:
+Cam changed the example to condition on the true coefficient being zero. The revision still describes the probability of estimating exactly 1.25, rather than the probability of a test statistic at least as extreme as observed. Slides 14–15 still introduce the reverse conditional question (probability the null is true). Review requested and completed; correcting these slides awaits Cam's requested decision. The 5% significance threshold is appropriate for the stated conventional two-sided test.
+Latest review of #22 — superseding earlier review, 2026-10-06:
+Cam now conditions correctly on the null and uses an upper-tail inequality. Explain both tails and the test statistic (estimate divided by standard error) to match the model's two-sided p-value. See completed #25 for verified review and source. No slide or starter edits in this review.

@@ -7,326 +7,413 @@ output:
     css: style.css
 ---
 
-## Key Concepts | Evidence for a Decision
+## Today's Learning Goals
 
-- **Parameter estimates:** information extracted from data about the proposed story.
-- **Uncertainty and significance:** assess how precisely we have estimated the relationship.
-- **Model fit:** evaluate a simplification without assuming it is the true story.
-- **Counterfactuals:** use fitted parameters to explore "what if" scenarios for a managerial decision.
-
-Today we develop the **evaluate** and **predict** stages introduced in lecture 07.
-
-## Marketing Analytics Process
-
-<center>
-![](Figures/process_model.png){width="900px"}
-</center>
+- Interpret estimates for continuous and binary predictors.
+- Explain confidence intervals and statistical significance correctly.
+- Compare models using $R^2$.
+- Generate customer-profile predictions with prediction intervals.
+- Explain what model fit and uncertainty mean for a business decision.
 
 ## Inferential Modeling Workflow
 
-<center>
-![](Figures/workflow-inference_simulate-fit-evaluate-predict.png){width=900px}
-</center>
+**Build → Fit → Evaluate → Predict**
 
----
+Last class, we **built** and **fit** a model of customer spending. Today we will **evaluate** the model and (and compare it to alternatives) use the model to generate **predictions**.
 
-![](Figures/hex_broom.png){width=500px}
+- **Evaluate:** how useful and precise are the estimated relationships?
+- **Predict:** what spending does the model imply for a customer profile, and how uncertain is an individual outcome?
 
-## Motivating Example
+## Evaluate | Planning Customer Outreach
 
-Our client, Kroger, is interested in a model that explains the factors influencing sales of their most popular soup products. Let's define a couple of different models that might fit the story of how soup sales are determined. How would we determine which model is the most appropriate?
-
-## Evaluate | What Would Convince Kroger?
-
-Kroger's broader decision is how to allocate promotional spending. Fitting a model gives us estimates, but the decision requires interpreting the evidence.
-
-- **Magnitude and direction:** how much do predicted sales differ as spending changes?
-- **Uncertainty:** which parameter values are consistent with the data and model assumptions?
-- **Fit:** how much variation does the model explain, and will it predict new observations well?
-
-Statistical significance alone does not establish a useful business effect or a causal relationship. We examine causality in lecture 10 and predictive validation in lecture 11.
+The home-goods retailer is developing customer segments for outreach. It wants to understand which household profiles tend to spend more and how much spending varies within a profile.
 
 ## Getting Started
 
+We're going to analyze the same customer records as last time.
+
 ```{r message=FALSE}
-# Load packages.
 library(tidyverse)
 library(tidymodels)
+
+customers <- read_csv("home_goods_customers.csv", show_col_types = FALSE)
 ```
 
-## Simulation Review
+## Cleaning Up the Data
 
-Remember we can pretend that our model fits our story exactly and simulate data.
+- `PreviousSpend`: dollars spent at this retailer in the previous 12 months.
+- `IncomeThousands`: annual household income divided by 1,000.
+- `Homeowner`: 1 = owns the primary residence; 0 = does not own.
 
 ```{r}
-# What's this again?!
-set.seed(42)
+customer_model_data <- customers |>
+  drop_na(HouseholdIncome, Homeowner, PreviousSpend) |>
+  mutate(IncomeThousands = HouseholdIncome / 1000)
 
-# Set variable and parameter values.
-nobs <- 300
-intercept <- 30
-slope <- 9
+nrow(customer_model_data)
+```
 
-# Simulate data.
-sim_data_01 <- tibble(
-  discount = round(runif(nobs, min = 0, max = 20)),
-  sales = intercept + slope * discount + rnorm(nobs, mean = 0, sd = 5)
+We use the same **9,800 customers** as last time.
+
+## Fit the Income Model
+
+Refit the `income` model from last lecture:
+
+```{r}
+fit_income <- linear_reg() |>
+  set_engine("lm") |>
+  fit(PreviousSpend ~ IncomeThousands, data = customer_model_data)
+```
+
+```{r}
+tidy(fit_income)
+```
+
+## Evaluate: Interpreting a Continuous Predictor
+
+For a model with one continuous predictor:
+
+$$\hat{y} = \beta_0 + \beta_1 x$$
+
+- **Slope ($\beta_1$):** a one-unit increase in $x$ is associated with a $\beta_1$-unit difference in $y$.
+- **Intercept ($\beta_0$):** the predicted mean of $y$ when $x = 0$; interpret it in context only if zero is meaningful and within the relevant range of the original data.
+- In a model with multiple predictors, interpret each slope **holding the other included predictors fixed**.
+
+## Interpret IncomeThousands | Customer Spending
+
+$$\widehat{PreviousSpend} = 760.42 + 2.57 \times IncomeThousands$$
+
+- **Slope:** another $1,000 of annual household income is associated with about $2.57 more spending at this retailer over 12 months.
+- **Intercept:** predicted spending at zero income; zero is outside the observed $15,000–$350,000 income range.
+
+## What about a Binary Predictor?
+
+A **binary** predictor has two levels. In this case, `Homeowner` is 0 or 1.
+
+```{r}
+fit_owner <- linear_reg() |>
+  set_engine("lm") |>
+  fit(PreviousSpend ~ Homeowner, data = customer_model_data)
+```
+
+```{r}
+tidy(fit_owner)
+```
+
+## Interpret a Binary Predictor
+
+For a model with one predictor coded $x = 0$ or $x = 1$:
+
+$$\hat{y} = \beta_0 + \beta_1 x$$
+
+- **Reference group ($x = 0$):** predicted mean $y$ is $\beta_0$.
+- **Comparison group ($x = 1$):** predicted mean $y$ is $\beta_0 + \beta_1$.
+- **Slope ($\beta_1$):** the predicted mean difference, **group 1 minus group 0**, in $y$'s units.
+
+In a model with multiple predictors, compare the groups **holding the other included predictors fixed**.
+
+## Interpret Homeowner | Customer Spending
+
+$$\widehat{PreviousSpend} = 921.12 + 118.81 \times Homeowner$$
+
+- **Intercept:** estimated mean past spending for customers who do not own their primary residence, about $921.12.
+- **Slope:** owners spent about $118.81 more on average than nonowners in this model.
+- For owners, predicted spending is $921.12 + $118.81 = **$1,039.93**.
+
+Remember, this **does not** establish that owning a home causes extra purchases.
+
+## How do I Know the Model Results are 'Real'?
+
+**Manager**:
+
+"Okay you found that on average, homeowners spend about \$118 more than non-homeowners. How do I know I can trust it?"
+
+## Handling Model Uncertainty
+
+Key Question: Assume that there is no relationship between owning a home and customer spend. Then, how likely is it that our model produces an estimate at least as large as the one we saw?
+
+## Handling Model Uncertainty
+
+Key Question: Assume that there is no relationship between owning a home and customer spend. Then, how likely is it that our model produces an estimate at least as large as the one we saw?
+
+**A *p*-value answers this question!**
+
+Example: imagine your model reports a *p*-value of 0.30 for $\beta_1 = 1.25$. Then, *the probability* that your model would estimate $\beta_1 \ge 1.25$ (or $\beta_1 \le -1.25$) when $\beta_1$ **is actually 0** is equal to 30%.
+
+We typically look for the probability to be 5% or less (*p*-value $\le 0.05$) before claiming "statistical significance".
+
+## Home Ownership *p*-value
+
+What is the $p$-value? What does it imply about our model estimate?
+
+```{r}
+tidy(fit_owner)
+```
+
+## *p*-values Aren't Very 'Interpretable'
+
+Manager:
+
+"You've established that there is likely a relationship between home ownership and spending. But what if the true effect is only \$10? We wouldn't bother targeting that demographic if the true effect is really small."
+
+## Enter: The Confidence Interval!
+
+A **confidence interval** quantifies the uncertainty around a model coefficient.
+
+```{r}
+tidy(fit_owner, conf.int = TRUE)
+```
+
+For the effect of home ownership on spending, the 95% interval is approximately **$110 - $128**.
+
+## Reporting Confidence Interval Results
+
+You:
+
+"I am 95% confident that the true effect of home ownership on spending is between **$110** and **$128**. We can't establish that home ownership *causes* more spending, but these results establish that home owners spend significantly more than non-homeowners, on average."
+
+## What Does 95% Mean?
+
+Under the model assumptions, about **95% of intervals constructed from repeated samples** would contain the true coefficient.
+
+- The coefficient is fixed; the interval changes with the sample.
+- The 95% refers to the procedure's coverage, not a probability assigned to the fixed coefficient or a range for 95% of customers.
+
+## Repeating the Study | 100 Hypothetical Samples {.coverage-table}
+
+For this illustration only, suppose the **true homeowner coefficient is $120**. Collect 100 hypothetical samples of 200 customers, refit the spending model each time, and calculate a 95% confidence interval.
+
+```{r echo=FALSE}
+coverage_true_beta <- 120
+set.seed(20261006)
+
+coverage_repeats <- map_dfr(1:100, function(sample_id) {
+  hypothetical_customers <- tibble(
+    Homeowner = rbinom(200, size = 1, prob = 0.5),
+    PreviousSpend = 900 + coverage_true_beta * Homeowner +
+      rnorm(200, sd = 220)
+  )
+  repeat_fit <- linear_reg() |>
+    set_engine("lm") |>
+    fit(PreviousSpend ~ Homeowner, data = hypothetical_customers)
+
+  tidy(repeat_fit, conf.int = TRUE) |>
+    filter(term == "Homeowner") |>
+    transmute(
+      Sample = sample_id,
+      beta_1_estimate = estimate,
+      conf_low = conf.low,
+      conf_high = conf.high,
+      contains_true = conf.low <= coverage_true_beta &
+        conf.high >= coverage_true_beta
+    )
+})
+
+coverage_preview <- bind_rows(
+  coverage_repeats |> filter(contains_true) |> slice_head(n = 4),
+  coverage_repeats |> filter(!contains_true) |> slice_head(n = 2)
+) |>
+  arrange(Sample)
+```
+
+```{r echo=FALSE, results='asis'}
+knitr::kable(
+  coverage_preview |> mutate(contains_true = if_else(contains_true, "Yes", "No")),
+  format = if (knitr::is_html_output()) "html" else "pipe",
+  digits = 2, row.names = FALSE,
+  col.names = c("Sample", "β₁ estimate", "Lower 95%", "Upper 95%", "Contains 120?")
 )
-
-sim_data_01
 ```
 
----
+All coefficient values are in dollars. These rows include intervals that contain the true value and intervals that miss it. The true coefficient stays fixed; estimates and intervals change.
 
-```{r message=FALSE}
-sim_data_01 |> 
-  ggplot(aes(x = discount, y = sales)) +
-  geom_jitter(size = 2, alpha = 0.5) +
-  geom_smooth(method = "lm")
+## Which Intervals Contain the True Coefficient? {.coverage-plot}
+
+```{r echo=FALSE, fig.width=10, fig.height=6.1, out.width='100%'}
+coverage_plot_data <- coverage_repeats |>
+  arrange(beta_1_estimate, Sample) |>
+  mutate(EstimateRank = row_number(),
+         Coverage = if_else(contains_true, "Contains true coefficient",
+                           "Misses true coefficient"))
+
+coverage_plot <- ggplot(coverage_plot_data,
+                        aes(y = EstimateRank, color = Coverage)) +
+  geom_vline(xintercept = coverage_true_beta, linetype = "dashed",
+             color = "black", linewidth = 0.8) +
+  geom_segment(aes(x = conf_low, xend = conf_high, yend = EstimateRank),
+               linewidth = 0.55) +
+  geom_point(aes(x = beta_1_estimate), size = 1.4) +
+  scale_color_manual(values = c("Contains true coefficient" = "#3B6F8F",
+                                "Misses true coefficient" = "#C44E20")) +
+  scale_y_continuous(breaks = seq(20, 100, by = 20)) +
+  labs(
+    title = "100 estimates and 95% confidence intervals",
+    subtitle = "Dashed line: true coefficient = $120; 95 intervals contain it, 5 miss it",
+    x = expression(hat(beta)[1]~"estimate and interval (owners minus nonowners, dollars)"),
+    y = "Estimate rank (smallest = 1)", color = NULL,
+    caption = "Dots are estimates; horizontal lines are 95% confidence intervals."
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "top", plot.title = element_text(size = 18),
+        plot.subtitle = element_text(size = 13),
+        plot.margin = margin(10, 20, 10, 10))
+
+coverage_plot
 ```
 
----
+**This run has 95 intervals covering the true coefficient. Another 100 samples could give a different count.** The 95% describes long-run coverage under the model assumptions.
 
-We can use the **binomial distribution** to simulate **binary** data. In a binary variable there are two **levels**, with the level equal to zero known as the **baseline level** or **reference level**.
+## Apply Confidence Intervals | Income
 
 ```{r}
-# Simulate some more data.
-sim_data_02 <- tibble(
-  coupon = rbinom(nobs, size = 1, prob = 0.7),
-  sales = intercept + slope * coupon + rnorm(nobs, mean = 0, sd = 5)
-)
-
-sim_data_02
+tidy(fit_income, conf.int = TRUE)
 ```
 
----
+The income slope's 95% interval is **$2.51–$2.63** in additional past spending per additional $1,000 of annual household income.
 
-```{r message=FALSE}
-sim_data_02 |> 
-  ggplot(aes(x = coupon, y = sales)) +
-  geom_jitter(size = 2, alpha = 0.5) +
-  geom_smooth(method = "lm")
-```
+Excluding zero corresponds to significance at the two-sided 5% level under the same assumptions. Including zero would not prove the relationship is zero. Consider dollar magnitude as well as significance.
 
-## Fit the Model
+## Your Turn! | Explain the Interval
 
-Remember that when we *fit* a linear model we are finding the line of best fit and getting *parameter estimates*.
+A manager sees the income-slope interval of $2.51–$2.63 and says:
+
+> "95% of our customers spend between $2.51 and $2.63."
+
+Explain what is wrong with that statement. Write a correct interpretation with the outcome's units and the size of the income difference.
+
+What would this interval tell the manager about outreach effectiveness?
+
+## Add Homeownership to the Income Model
+
+We can describe spending using both household characteristics:
 
 ```{r}
-# Fit the first model.
-fit_01 <- linear_reg() |> 
-  set_engine("lm") |> 
-  fit(sales ~ discount, data = sim_data_01)
-
-# Fit the second model.
-fit_02 <- linear_reg() |> 
-  set_engine("lm") |> 
-  fit(sales ~ coupon, data = sim_data_02)
+fit_profile <- linear_reg() |>
+  set_engine("lm") |>
+  fit(PreviousSpend ~ IncomeThousands + Homeowner,
+      data = customer_model_data)
 ```
 
-## Parameter Estimates
+As in Lecture 06, each slope describes a difference **holding the other included variable fixed**.
 
-Remember that our goal is to use the model to *estimate* the unobserved parameters from the data.
+## Model Comparison | R-Squared
+
+**$R^2$** is the proportion of observed outcome variation explained by the fitted model.
 
 ```{r}
-# Evaluate model fit.
-fit_01 |> 
-  tidy()
+bind_rows(
+  income = glance(fit_income),
+  profile = glance(fit_profile),
+  .id = "model"
+) |>
+  select(model, r.squared)
 ```
 
----
+On the same customers, $R^2$ increases from about **.394 to .422**. Homeownership adds about **2.8 percentage points** of explained variation.
 
-<center>
-![](Figures/monsters_tidy.png){width=900px}
-</center>
+- About 58% of variation remains unexplained. Adding predictors to nested least-squares models cannot lower training $R^2$.
+- Better training fit does not establish usefulness, causality or accuracy for new customers. Predictive validation comes later.
 
-## How Do We Interpret Our Models?
+## Prediction | Income Profiles
 
-$$sales = 29.80 + 9.01 \times discount$$
-
-If $x$ is continuous:
-
-- The intercept parameter $\beta_0$ represents the expected value of $y$ when $x$ is zero.
-- The associated slope parameter $\beta_1$ represents the expected amount by which $y$ will change given a one unit increase in $x$.
-
----
-
-What's different about `sim_data_02`?
+Using the **income-only model**, what past spending is expected at annual household incomes of $40,000, $80,000 and $120,000?
 
 ```{r}
-# Evaluate model fit.
-fit_02 |> 
-  tidy()
+income_profiles <- tibble(IncomeThousands = c(40, 80, 120))
+
+predict(fit_income, new_data = income_profiles) |>
+  bind_cols(income_profiles)
 ```
 
----
+Expected spending is about **$863.21, $966.00 and $1,068.79**, respectively. Input names and units match the model; these profiles are within the observed income range.
 
-$$sales = 29.60 + 9.07 \times coupon$$
+These are historical spending associations, not interventions or forecasts of next year's sales.
 
-If $x$ is discrete:
-
-- The intercept parameter $\beta_0$ represents the expected value of $y$ when $x$ is equal to the *baseline level*.
-- The associated slope parameter $\beta_1$ represents the expected amount by which $y$ will change **relative** to the *baseline level* of $x$.
-
-## Your Turn!
-
-See example in the starter code.
-
-## Intervals and Significance
-
-So far the parameter estimates have been **point estimates**, a single number that represents our best guess.
-
-But this is a statistical model -- there is always uncertainty (i.e., error). We can produce an **interval estimate** of the parameters, a range of numbers that represent our best guess.
+## Prediction Intervals | Individual Outcomes
 
 ```{r}
-# Include confidence intervals.
-tidy(fit_01, conf.int = TRUE)
-```
-
----
-
-These interval estimates are called **confidence intervals**. Under the model assumptions, a procedure that produces 95% confidence intervals would include the true parameter in about 95% of repeated samples.
-
-If a 95% confidence interval *doesn't include zero*, the estimate is **statistically significant** at the corresponding two-sided 5% level.
-
-*We reach the same conclusion using a confidence interval as when using a p-value!*
-
-```{r}
-# Include confidence intervals.
-tidy(fit_02, conf.int = TRUE)
-```
-
-## Model Comparison
-
-Eventually we'll want to compare how well different models fit the same data. To do that efficiently we need a single number that describes the **overall model fit**.
-
-```{r}
-# Look at the r.squared.
-glance(fit_01)
-```
-
-The $R^2$ is the percent of variation in $y$ that can be explained by the model (i.e., the explanatory variable(s)). Closer to 1 is better! This is easy to misuse, so it will be our measure of overall model fit only temporarily.
-
-## Another Interpretation of R-Squared
-
-Think of it this way:
-
-- R-squared measures how much observed variation our fitted model accounts for in these data.
-- A high R-squared means the model accounts for a large share of that variation; it does not prove that our story is causal or correct.
-- A low R-squared means much variation remains unexplained. A model may still provide useful information about a relationship.
-
-"All models are wrong, but some are useful": judge usefulness against the managerial question, uncertainty, and evidence beyond training fit.
-
-## Predict | Kroger's "What If" Question
-
-Lecture 07 used the illustrative relationship $\widehat{\text{sales}} = 10 + 3 \times \text{promotion_spend}$.
-
-| Hypothetical spending | Predicted sales |
-|---:|---:|
-| 0 | 10 |
-| 5 | 25 |
-| 10 | 40 |
-
-These are model-based scenarios in the example's units, not observed outcomes. With a fitted model, we substitute **estimated** parameters and feasible budget choices.
-
-Predicting what an intervention would cause requires a defensible causal story. A fitted association alone does not provide that guarantee.
-
-## Prediction
-
-While the parameter estimates are often the object of interest for an inferential model, we of course can **predict** the outcome using the fitted model:
-
-$$sales = 29.60 + 9.07 \times coupon$$
-
-To explore *counterfactual* scenarios, we supply new data describing the alternatives. Here we compare no coupon with a coupon; for Kroger's budget decision, the rows could instead describe different spending allocations.
-
-```{r}
-# Column names need to match the fitted model.
-scenarios <- tibble(coupon = c(0, 1))
-```
-
----
-
-We can predict using the fitted model and the new data.
-
-```{r}
-# Predict and bind on the new data.
-predict(fit_02, new_data = scenarios) |> 
-  bind_cols(scenarios)
-```
-
----
-
-We can also compute **prediction intervals** for individual new outcomes. These include both uncertainty in the fitted mean and observation-level error $\epsilon$, so they are wider than confidence intervals for the mean response.
-
-```{r}
-# Predict and bind on prediction intervals.
 bind_cols(
-  predict(fit_02, new_data = scenarios),
-  predict(fit_02, new_data = scenarios, type = "pred_int"),
-  scenarios
+  income_profiles,
+  predict(fit_income, new_data = income_profiles),
+  predict(fit_income, new_data = income_profiles, type = "pred_int")
 )
 ```
 
-## Recover Parameters
+The default **95% prediction interval** is for an individual new outcome under the fitted model assumptions. It includes uncertainty in the estimated mean **and** observation-level error.
 
-One of the purposes of simulating data from a model is to evaluate whether a model can recover the **true** parameter values. This can be used to evaluate what happens when our model/story **does not** accurately describe how our data came to be. You'll see an example of this in the Exercise for this week.
+It does not include every possible source of error, such as a wrong model or a changed shopping environment.
 
-For now, look at the coefficients from our first model. Did it recover the true values?
+## Three Different Interval Questions
+
+| Interval | What is uncertain? |
+|---|---|
+| Coefficient confidence interval | A slope or intercept |
+| Mean-response confidence interval | Average spending at a profile |
+| Individual prediction interval | One customer's spending at a profile |
 
 ```{r}
-tidy(fit_01, conf.int = TRUE)
+predict(fit_income, new_data = income_profiles, type = "conf_int")
 ```
+
+Compare these mean-response intervals with the individual prediction intervals. A precisely estimated average can coexist with wide variation among customers.
 
 ## Science and Faith | Revising Our Understanding
 
-Lecture 07 connected learning about an unobserved process to both science and faith:
-
 > "If any man have ears to hear, let him hear." (Mark 4:23)
 
-1. Begin with a story or question about a process.
-2. Express the story as a model and fit it to evidence.
-3. Evaluate the evidence, recognizing that conclusions depend on assumptions.
-4. Refine our understanding, learning line upon line.
+We refine our understanding line upon line through evidence and reflection. Our modeling conclusions depend on the story and assumptions we bring to the evidence.
 
-How does Moroni 10:3-5 describe learning from evidence and reflection? In our analysis, what evidence would lead us to revise the soup-sales story?
+How does Moroni 10:3-5 describe learning from evidence and reflection? What evidence would lead us to revise our customer-spending story?
 
 ## Live Coding
 
-Imagine our client, Kroger, is interested in evaluating the effectiveness of a recent promotional campaign. Kroger had their in-house analytics team create a linear regression model for `sales` as a function of `discount` and `coupon`. They ultimately concluded that coupons were ineffective at driving sales. However, partway through analyzing the data, Kroger realized that their coupon system had malfunctioned, and customers they thought had received digital coupons did not. Only mailers were sent out to their older demographic customers.
+The retailer wants a useful description of its **high-value households** before planning its next outreach campaign. Leadership also wants to know how much confidence to place in that description.
 
-Kroger is seeking your help to determine what the effects of this system glitch could have been on the results of their model.
+What should "high-value" mean here? What evidence would support a useful customer profile? How would you communicate uncertainty and the limits of a recommendation?
+
+Let's develop an analysis and a brief recommendation for the client.
 
 ## Wrapping Up
 
-*Summary*
-
-- Discussed interpreting parameter estimates and statistical significance.
-- Considered model comparison.
-- Walked through prediction.
-- Demonstrated parameter recovery.
-- Connected estimates, uncertainty, and "what if" scenarios to a managerial decision.
+Evaluate customer models using **dollar magnitude, confidence intervals, model fit, and prediction intervals** together.
 
 *Next Time*
 
-- Adding explanatory variables.
+- Adding explanatory variables and examining how they change our interpretation.
 
 *Supplementary Material*
 
 - *Tidy Modeling with R* Chapter 6.2-6.3
-- [Faith and Science: Symbiotic Pathways to Truth](https://speeches.byu.edu/talks/jamie-jensen/faith-science-symbiotic-pathways-truth/) (the reflection introduced in lecture 07).
+- [Faith and Science: Symbiotic Pathways to Truth](https://speeches.byu.edu/talks/jamie-jensen/faith-science-symbiotic-pathways-truth/).
 
 *Artwork by @allison_horst*
 
-## Exercise 8
+## Exercise 8 | Customer Segments for Outreach
 
-Suppose, hypothetically, that soup `sales` are determined entirely by `discount`, the amount (in dollars and cents) that the price of a product is discounted, and `coupon`, whether a consumer was sent a digital coupon for a buy-one, get-one free deal. Kroger is interested in evaluating whether the discount or the coupon had a larger effect on sales.
+The home-goods retailer is developing outreach segments. It wants to know whether household size and homeownership add useful information about past customer value beyond income, and how much spending variation remains within a household profile.
 
-Kroger's couponing system had a glitch that caused the coupons not the be sent to consumers. However, this glitch was discovered **after** Kroger's analysts examined the data using a linear regression model for `sales` as a function of `discount` and `coupon`. Your task is to simulate data that matches this scenario and determine what the impact of the couponing error is on the model that Kroger trained.
+Use `home_goods_customers.csv` and `data_dictionary.pdf`. The outcome is `PreviousSpend`, spending at this retailer over the previous 12 months. Express annual `HouseholdIncome` in thousands of dollars.
 
----
+Compare an **income-only model** with a model that also includes **HouseholdSize and Homeowner**. Use the same customers with observed values for all model variables and report how many are included.
 
-1. Simulate a single data set with three variables: `discount` using a uniform distribution, `coupon` as a binary variable using the binomial distribution, and `sales` as a function of *only* `discount`, using a linear model. Remember - we expect `coupon` to have an effect on `sales`, but due to the system glitch, we are simulating data where `coupon` **does not** affect sales since consumers never received their coupons! 
-2. Fit two models using {tidymodels}: `sales ~ discount` and `sales ~ discount + coupon`.
-3. Compare parameter estimates and overall model fit for both models. Which model(s) is/are able to recover the true parameter values?
-4. Using the best-fitting model, predict some possible counterfactuals - for example, what would happen to sales if Kroger were to use different discount amounts?
-5. Render the Quarto document into Word and upload to Canvas.
+## Exercise 8 | The Client Report
+
+Submit a Word document rendered from Quarto with your code, results, and interpretation. Include:
+
+- Both fitted models and their $R^2$ values; identify the better fit and explain the improvement and the limits of this comparison.
+- The better-fitting model's coefficient estimates and 95% confidence intervals; interpret each slope in dollars, holding the other included characteristics fixed.
+
+## Exercise 8 | Predictions and Recommendation
+
+Report predicted spending and **95% individual prediction intervals** from the better-fitting model for these profiles:
+
+| Annual household income | Household size | Homeowner |
+|---:|---:|---:|
+| $40,000 | 1 | 0 |
+| $80,000 | 2 | 0 |
+| $80,000 | 2 | 1 |
+| $120,000 | 4 | 1 |
+
+Conclude what the profiles and interval widths support for segmentation, including why they do not establish who will respond to new outreach.
+
+Choose the code operations and their sequence. Upload your report to Canvas's **Exercise 8** assignment.
