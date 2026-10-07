@@ -19,7 +19,7 @@ output:
 
 **Build → Fit → Evaluate → Predict**
 
-Last class, we **built** and **fit** a model of customer spending. Today we will **evaluate** the model and (and compare it to alternatives) use the model to generate **predictions**.
+Last class, we **built** and **fit** a model of customer spending. Today we will **evaluate** the model (and compare it to alternatives) and use the model to generate **predictions**.
 
 - **Evaluate:** how useful and precise are the estimated relationships?
 - **Predict:** what spending does the model imply for a customer profile, and how uncertain is an individual outcome?
@@ -126,11 +126,11 @@ Remember, this **does not** establish that owning a home causes extra purchases.
 
 **Manager**:
 
-"Okay you found that on average, homeowners spend about \$118 more than non-homeowners. How do I know I can trust it?"
+"Your model says that on average, homeowners spend about \$118 more than non-homeowners. How do I know that is a real difference?"
 
 ## Handling Model Uncertainty
 
-Key Question: Assume that there is no relationship between owning a home and customer spend. Then, how likely is it that our model produces an estimate at least as large as the one we saw?
+Key Question: Assume that there is no relationship between owning a home and customer spend. Then, how likely is it that our model produces an estimate at least as extreme as the one we saw?
 
 ## Handling Model Uncertainty
 
@@ -154,11 +154,11 @@ tidy(fit_owner)
 
 Manager:
 
-"You've established that there is likely a relationship between home ownership and spending. But what if the true effect is only \$10? We wouldn't bother targeting that demographic if the true effect is really small."
+"You've established that there is likely a relationship between home ownership and spending. But how certain are you that the true difference is \$118? What if it's only \$10? We wouldn't bother targeting that demographic if the true effect is really small."
 
 ## Enter: The Confidence Interval!
 
-A **confidence interval** quantifies the uncertainty around a model coefficient.
+A **confidence interval** quantifies the uncertainty around a model point estimate.
 
 ```{r}
 tidy(fit_owner, conf.int = TRUE)
@@ -174,24 +174,27 @@ You:
 
 ## What Does 95% Mean?
 
-Under the model assumptions, about **95% of intervals constructed from repeated samples** would contain the true coefficient.
+Under the model assumptions, about **95% of intervals constructed by repeating the data collection and re-estimating the model** would contain the true coefficient.
 
 - The coefficient is fixed; the interval changes with the sample.
-- The 95% refers to the procedure's coverage, not a probability assigned to the fixed coefficient or a range for 95% of customers.
+- The 95% refers to the procedure's coverage; it is not
+  * A probability the interval contains the coefficient
+  * A range of values over customers
 
 ## Repeating the Study | 100 Hypothetical Samples {.coverage-table}
 
-For this illustration only, suppose the **true homeowner coefficient is $120**. Collect 100 hypothetical samples of 200 customers, refit the spending model each time, and calculate a 95% confidence interval.
+For this illustration only, suppose the **true homeowner coefficient is $120**. Collect 100 hypothetical samples of 9800 customers, refit the spending model each time, and calculate a 95% confidence interval.
 
 ```{r echo=FALSE}
 coverage_true_beta <- 120
+coverage_sample_size <- 9800
 set.seed(20261006)
 
 coverage_repeats <- map_dfr(1:100, function(sample_id) {
   hypothetical_customers <- tibble(
-    Homeowner = rbinom(200, size = 1, prob = 0.5),
+    Homeowner = rbinom(coverage_sample_size, size = 1, prob = 0.5),
     PreviousSpend = 900 + coverage_true_beta * Homeowner +
-      rnorm(200, sd = 220)
+      rnorm(coverage_sample_size, sd = 220)
   )
   repeat_fit <- linear_reg() |>
     set_engine("lm") |>
@@ -224,8 +227,6 @@ knitr::kable(
   col.names = c("Sample", "β₁ estimate", "Lower 95%", "Upper 95%", "Contains 120?")
 )
 ```
-
-All coefficient values are in dollars. These rows include intervals that contain the true value and intervals that miss it. The true coefficient stays fixed; estimates and intervals change.
 
 ## Which Intervals Contain the True Coefficient? {.coverage-plot}
 
@@ -261,8 +262,6 @@ coverage_plot <- ggplot(coverage_plot_data,
 coverage_plot
 ```
 
-**This run has 95 intervals covering the true coefficient. Another 100 samples could give a different count.** The 95% describes long-run coverage under the model assumptions.
-
 ## Apply Confidence Intervals | Income
 
 ```{r}
@@ -271,19 +270,41 @@ tidy(fit_income, conf.int = TRUE)
 
 The income slope's 95% interval is **$2.51–$2.63** in additional past spending per additional $1,000 of annual household income.
 
-Excluding zero corresponds to significance at the two-sided 5% level under the same assumptions. Including zero would not prove the relationship is zero. Consider dollar magnitude as well as significance.
+## *p*-values vs. Confidence Intervals
+
+When a 95% confidence interval excludes zero, it corresponds to *p*-value $\le 0.05$. ("statistical significance")
+
+If a 95% interval includes zero, it *does not* prove there is no relationship between your dependent and independent variables. It means the evidence from the data is not strong enough to establish a relationship at the 5% level.
 
 ## Your Turn! | Explain the Interval
 
-A manager sees the income-slope interval of $2.51–$2.63 and says:
+Your coworker sees the customer income confidence interval of \$2.51–\$2.63 and says:
 
 > "95% of our customers spend between $2.51 and $2.63."
 
-Explain what is wrong with that statement. Write a correct interpretation with the outcome's units and the size of the income difference.
+Explain what is wrong with that statement. Write a correct interpretation that is based on the outcome's units.
 
-What would this interval tell the manager about outreach effectiveness?
+## Quick Review
 
-## Add Homeownership to the Income Model
+We've covered:
+
+- Model estimation (fitting a model and reporting coefficient values)
+- Model evaluation (estimating and interpreting confidence intervals)
+
+But how do we know whether the income-based model or the home ownership-based model is better? Or, should we include both variables in one model?
+
+## Quick Review
+
+We've covered:
+
+- Model estimation (fitting a model and reporting coefficient values)
+- Model evaluation (estimating and interpreting confidence intervals)
+
+But how do we know whether the income-based model or the home ownership-based model is better? Or, should we include both variables in one model?
+
+Let's look at one way to compare (and choose) a model...
+
+## Add Home Ownership to the Income Model
 
 We can describe spending using both household characteristics:
 
@@ -296,27 +317,51 @@ fit_profile <- linear_reg() |>
 
 As in Lecture 06, each slope describes a difference **holding the other included variable fixed**.
 
-## Model Comparison | R-Squared
+## Model Comparison: R-Squared
 
 **$R^2$** is the proportion of observed outcome variation explained by the fitted model.
 
-```{r}
+```{r, eval=FALSE}
 bind_rows(
   income = glance(fit_income),
+  home_owner = glance(fit_owner),
   profile = glance(fit_profile),
   .id = "model"
 ) |>
   select(model, r.squared)
 ```
 
-On the same customers, $R^2$ increases from about **.394 to .422**. Homeownership adds about **2.8 percentage points** of explained variation.
+## Model Comparison: R-Squared
 
-- About 58% of variation remains unexplained. Adding predictors to nested least-squares models cannot lower training $R^2$.
-- Better training fit does not establish usefulness, causality or accuracy for new customers. Predictive validation comes later.
+```{r, echo=FALSE}
+bind_rows(
+  income = glance(fit_income),
+  home_owner = glance(fit_owner),
+  profile = glance(fit_profile),
+  .id = "model"
+) |>
+  select(model, r.squared)
+```
 
-## Prediction | Income Profiles
+$R^2$ is highest for the model with both variables.
 
-Using the **income-only model**, what past spending is expected at annual household incomes of $40,000, $80,000 and $120,000?
+- About 58% of variation remains unexplained. Adding additional explanatory variables could explain more variation.
+
+Teaser: $R^2$ has issues that we will discuss later. We will eventually use better measures to select models.
+
+## Quick Review:
+
+We've covered:
+
+- Model estimation (fitting a model and reporting coefficient values)
+- Model evaluation (estimating and interpreting confidence intervals)
+- Model comparison (choosing a model based on the highest $R^2$)
+
+The model coefficients we've interpreted so far tell us about *average* effects. But what can the model tell us about individual consumer profiles?
+
+## Prediction: Income Profiles
+
+Using the **income-only model**, what is the predicted (or expected) spend at household incomes of $40,000, \$80,000 and \$120,000?
 
 ```{r}
 income_profiles <- tibble(IncomeThousands = c(40, 80, 120))
@@ -325,11 +370,11 @@ predict(fit_income, new_data = income_profiles) |>
   bind_cols(income_profiles)
 ```
 
-Expected spending is about **$863.21, $966.00 and $1,068.79**, respectively. Input names and units match the model; these profiles are within the observed income range.
+Expected spending is about **$863.21, $966.00 and $1,068.79**, respectively.
 
-These are historical spending associations, not interventions or forecasts of next year's sales.
+## Prediction Intervals
 
-## Prediction Intervals | Individual Outcomes
+How certain are we about those predictions?
 
 ```{r}
 bind_cols(
@@ -339,31 +384,15 @@ bind_cols(
 )
 ```
 
-The default **95% prediction interval** is for an individual new outcome under the fitted model assumptions. It includes uncertainty in the estimated mean **and** observation-level error.
+The default **95% prediction interval** is for an individual-level outcome. It accounts for uncertainty in the estimated mean **and** observation-level error.
 
-It does not include every possible source of error, such as a wrong model or a changed shopping environment.
+## Interpreting Prediction Intervals
 
-## Three Different Interval Questions
+You:
 
-| Interval | What is uncertain? |
-|---|---|
-| Coefficient confidence interval | A slope or intercept |
-| Mean-response confidence interval | Average spending at a profile |
-| Individual prediction interval | One customer's spending at a profile |
+"I am 95% confident that a consumer with $40k income would spend approximately \$528 - \$1198 over a 12 month period."*
 
-```{r}
-predict(fit_income, new_data = income_profiles, type = "conf_int")
-```
-
-Compare these mean-response intervals with the individual prediction intervals. A precisely estimated average can coexist with wide variation among customers.
-
-## Science and Faith | Revising Our Understanding
-
-> "If any man have ears to hear, let him hear." (Mark 4:23)
-
-We refine our understanding line upon line through evidence and reflection. Our modeling conclusions depend on the story and assumptions we bring to the evidence.
-
-How does Moroni 10:3-5 describe learning from evidence and reflection? What evidence would lead us to revise our customer-spending story?
+*This assumes an identical 12-month period to the 12 months the data are based on. Changes in product assortment, availability, economic factors, etc. could play a role in the actual outcome.
 
 ## Live Coding
 
@@ -388,7 +417,7 @@ Evaluate customer models using **dollar magnitude, confidence intervals, model f
 
 *Artwork by @allison_horst*
 
-## Exercise 8 | Customer Segments for Outreach
+## Exercise 6 | Customer Segments for Outreach
 
 The home-goods retailer is developing outreach segments. It wants to know whether household size and homeownership add useful information about past customer value beyond income, and how much spending variation remains within a household profile.
 
@@ -396,14 +425,14 @@ Use `home_goods_customers.csv` and `data_dictionary.pdf`. The outcome is `Previo
 
 Compare an **income-only model** with a model that also includes **HouseholdSize and Homeowner**. Use the same customers with observed values for all model variables and report how many are included.
 
-## Exercise 8 | The Client Report
+## Exercise 6: The Client Report
 
 Submit a Word document rendered from Quarto with your code, results, and interpretation. Include:
 
 - Both fitted models and their $R^2$ values; identify the better fit and explain the improvement and the limits of this comparison.
 - The better-fitting model's coefficient estimates and 95% confidence intervals; interpret each slope in dollars, holding the other included characteristics fixed.
 
-## Exercise 8 | Predictions and Recommendation
+## Exercise 6: Predictions and Recommendation
 
 Report predicted spending and **95% individual prediction intervals** from the better-fitting model for these profiles:
 
@@ -414,6 +443,4 @@ Report predicted spending and **95% individual prediction intervals** from the b
 | $80,000 | 2 | 1 |
 | $120,000 | 4 | 1 |
 
-Conclude what the profiles and interval widths support for segmentation, including why they do not establish who will respond to new outreach.
-
-Choose the code operations and their sequence. Upload your report to Canvas's **Exercise 8** assignment.
+Conclude what the profiles and interval widths suggest for outreach. Upload your report to Canvas's **Exercise 6** assignment.

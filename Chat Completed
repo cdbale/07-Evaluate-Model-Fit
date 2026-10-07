@@ -250,3 +250,50 @@ Status: Verified — authoritative source, scoped style.css, corresponding start
 Verification: tmp/lecture07-html-layout-qa/verify.R parses/executes all 17 slide and 19 starter chunks with temporary review fixtures. All 34 section headings and 15 supplied code chunks match; independent lm/confint checks still pass. Sorted plot rank is 1–100, coefficients are nondecreasing, original sample identities/intervals are preserved and all 100 points/segments are present. Source/style diff check passed.
 Rendering: used existing R 4.6.1, rmarkdown 2.31, knitr 1.51 and RStudio's bundled Pandoc 3.10; no installs. Final successful render ran from the lecture folder with a per-process UTF-8 LC_CTYPE, preventing Greek labels from becoming U+ escape text. Rendered first to tmp/lecture07-html-layout-qa/lecture-layout-preview.html, verified HTML headers/cell counts, scoped CSS/class targets and the 1920x1171 embedded PNG, then copied the validated result to the lecture's named HTML; SHA-256 hashes match. The prior named HTML is preserved in tmp/lecture07-html-layout-qa/9-Evaluate-Model-Fit-before.html. Interim render-path/placeholder problems were resolved by rendering to a separate preview from the lecture working directory. Full browser viewport geometry is unverified because of the URL policy; verification used safer offline parsing and rendered-image inspection.
 Only local rendered HTML was requested/updated. index.html, Canvas, GitHub and Pages remain unchanged; publication portions of #10 and Canvas #9 remain pending. P-value correction #22 remains pending. Existing external working-tree deletions were preserved.
+
+
+Completed 2026-10-07 — larger coverage plot
+
+29. Enlarge slide 22's coverage plot after Cam's latest edits — 2026-10-07.
+Request: Review current slides and increase plot size without spilling beyond the slide.
+Decision: Approve — directly requested; local HTML resizing continues the authorized HTML correction (#28).
+Plan: Preserve Cam's current Rmd, including removed slide-21/22 footer prose. Scope smaller margins and a higher image-size limit to slide 22; inspect locally regenerated HTML and embedded plot.
+Status: Verified — scoped CSS enlarges the plot from 560 to approximately 634 displayed pixels high (13.3%), preserving its aspect ratio and fitting within the 1040 x 660 content box. Current Rmd and starter code unchanged.
+Verification: Locally rendered the latest source using existing R/rmarkdown/Pandoc. Offline HTML checks confirm 35 instructional slides, slide 22's single image paragraph, scoped 20px/30px slide padding, zero paragraph margins and a 650px image-height limit. Actual embedded 1920 x 1171 PNG visually inspected; retains all 100 intervals in ascending order and the 95/5 count. Calculated displayed bounds are 1040 x 634.3, leaving vertical space within the 1040 x 660 content area. Table retains five headers and 30 cells. Source SHA-256 unchanged; no slide code changed, so no starter propagation needed. Named HTML matches the validated preview by SHA-256. Prior user HTML preserved under tmp/lecture07-plot-size-qa/9-Evaluate-Model-Fit-before.html.
+Limit: Live browser geometry not inspected; earlier file:// security restriction remains respected. Fit verified from emitted CSS and image dimensions, with rendered-image inspection. No Canvas edit, commit, push or index.html update. New sample-size discrepancy recorded as pending #30; earlier #9/#10/#22 remain pending.
+Current Git audit: main at 92f446a at start of this turn. Only Rmd and named HTML were modified at entry; earlier external deletions no longer appear as working-tree changes. This supersedes earlier baseline/deletion status for current working-tree assessment.
+
+
+Completed 2026-10-07 — match the 9,800-customer sample
+
+30. Reconcile hypothetical sample size — slide 21 Repeating the Study | 100 Hypothetical Samples.
+Issue: Cam's latest slide prose says 9,800 customers per sample; the actual illustration still simulates 200 customers per sample. Starter also describes and uses 200.
+Proposal: Either restore 200 in the slide prose or revise the simulation and matching starter to 9,800, rechecking the illustrative coverage count and table/plot values.
+Decision: Pending — Approve / Alter / Reject; new review finding, separate from plot sizing.
+Effect: Changing simulation size changes interval widths and could change the reported 95/5 coverage count. No change applied.
+Update to #30 — 2026-10-07:
+Decision: Approve — Cam explicitly requested 9,800 customers in the code to match the actual analysis sample.
+Plan: Set the slide and starter sampling size to 9,800; update matching starter prose; verify all intervals and coverage counts; regenerate the local table/plot HTML under the continuing local HTML-update authorization. Preserve seed and plot layout if valid.
+Status: Verified — both slide and starter simulations use coverage_sample_size = 9800, matching the actual complete-case analysis sample. Starter prose updated; table/plot HTML regenerated and inspected.
+Verification: tmp/lecture07-9800-qa/verify.R parses/executes all 17 slide chunks and 19 starter chunks using temporary in-memory fixtures for the two intentional review gaps. All 15 supplied code chunks and 34 section headings match. All 100 revised sample-and-refit coefficients/intervals match independently computed lm/confint results using 9,800 customers each. Original seed 20261006 naturally still yields 95 covers and 5 misses, so no seed or interval manipulation was needed. Six-row preview contains four covers and two misses; plot includes all 100 estimates/intervals sorted by coefficient. Analysis sample verified as 9,800 complete records (raw CSV has 10,000 rows; sample preparation remains unchanged). Exercise and solution unchanged; prior-material starter reduction remains two of four eligible steps (50%).
+HTML: Updated embedded coverage plot visually inspected; offline HTML/CSS checks preserve the larger 1040 x 634.3 display within a 1040 x 660 content box. Table has five headers and 30 cells. Named HTML SHA-256 matches validated preview. Live browser geometry remains unverified under the existing file:// restriction. No Canvas write, index.html edit, package install, commit or publication. Pending #9/#10/#22 remain pending. This completes #30 and supersedes its earlier sample-size discrepancy notes.
+
+
+Completed 2026-10-07 — finished-slide review and Exercise 6 reconciliation
+
+31. Review Cam's finished slides for correctness — 2026-10-07.
+Decision: Approve — review and focused suggestions explicitly requested; slide corrections remain suggestions until approved. Current source has 39 slides.
+Status: Verified — reviewed all 39 current slides and executed all 17 R chunks. Coefficients, 95% bounds, sample size, income range, three-model R-squared results and income-profile predictions agree with slide statements. Only two focused statistical wording corrections are suggested (#22 and #34); slides otherwise changed only to renumber the exercise. Official R summary.lm/confint documentation checked. No rendering.
+
+32. Align exercise solution instructions and renumber to Exercise 6 — 2026-10-07.
+Decision: Approve — directly requested.
+Plan: Change exercise references in slide source, starter and solution from 8 to 6; copy the current slide instructions verbatim into the solution; rename the local solution to Exercise 6 Solution.qmd. Preserve solution analysis and rubric. No Canvas edits or rendering requested.
+Status: Verified — renamed local solution to Exercise 6 Solution.qmd; title and all exercise references changed to 6. Current slide instructions copied verbatim into solution and starter (apart from the starter activity placeholder). Original solution analysis and five-point rubric preserved verbatim. All six solution chunks execute and numerical claims are verified. No Canvas assignment or generated HTML change.
+
+33. Align complete starter with Cam's finished slides — 2026-10-07.
+Decision: Approve — directly requested.
+Plan: Match current headings/order, prose, model comparisons, prediction examples and exercise instructions; preserve the two prior-material review gaps and open activity chunks. Retain the existing correct p-value definition and use accurate confidence-interval/significance wording rather than copy known errors. Remove material Cam removed from the slides.
+Status: Verified — starter matches all 38 slide section headings, 15 supplied R chunks, current three-model comparison, revised interval discussion and final exercise. Retained two prior-material review gaps and two empty activity chunks, including 2/4 eligible prior-material steps (50%). Removed superseded mean-response-interval and Science and Faith sections that Cam removed from slides. Existing correct two-sided p-value definition retained; new significance comparison uses accurate wording, avoiding copying the two pending slide errors. All 19 chunks parse/execute with temporary in-memory fixtures for the two review gaps.
+
+Verification evidence: tmp/lecture07-final-review-qa/verify.R verifies slide/starter heading and supplied-code equality; verbatim exercise instructions; 17/19/6 executable chunk counts; actual 9,800-customer sample and 95/5 illustrative coverage; income/owner coefficients and intervals; income-only predictions $863.21/$966.00/$1068.79 and first individual interval approximately $528–$1198; three-model R-squared .394/.0662/.422; exercise R-squared .3939/.5031; all four solution predictions. final_audit.py verifies slide source equals Cam's snapshot except Exercise 8 to 6, preserves rubric/solution analysis verbatim, and verifies the user-rendered HTML hash is unchanged. No slide render, package install, Canvas write, Git commit/push or published index.html change.
+Current source has 39 slides; latest entry supersedes earlier 35-slide and 34-section audit counts. Source renumbering is not yet reflected in the untouched HTML. Review suggestions #22 and #34 remain pending. Earlier #9/#10 remain deferred by Cam; main still at 92f446a with local edits.

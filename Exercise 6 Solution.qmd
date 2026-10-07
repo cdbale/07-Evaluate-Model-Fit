@@ -1,10 +1,10 @@
 ---
-title: "Exercise 8"
+title: "Exercise 6"
 author: "Cameron Bale"
 format: docx
 ---
 
-## Exercise 8 | Customer Segments for Outreach
+## Exercise 6 | Customer Segments for Outreach
 
 The home-goods retailer is developing outreach segments. It wants to know whether household size and homeownership add useful information about past customer value beyond income, and how much spending variation remains within a household profile.
 
@@ -12,14 +12,14 @@ Use `home_goods_customers.csv` and `data_dictionary.pdf`. The outcome is `Previo
 
 Compare an **income-only model** with a model that also includes **HouseholdSize and Homeowner**. Use the same customers with observed values for all model variables and report how many are included.
 
-## Exercise 8 | The Client Report
+## Exercise 6: The Client Report
 
 Submit a Word document rendered from Quarto with your code, results, and interpretation. Include:
 
 - Both fitted models and their $R^2$ values; identify the better fit and explain the improvement and the limits of this comparison.
 - The better-fitting model's coefficient estimates and 95% confidence intervals; interpret each slope in dollars, holding the other included characteristics fixed.
 
-## Exercise 8 | Predictions and Recommendation
+## Exercise 6: Predictions and Recommendation
 
 Report predicted spending and **95% individual prediction intervals** from the better-fitting model for these profiles:
 
@@ -30,16 +30,14 @@ Report predicted spending and **95% individual prediction intervals** from the b
 | $80,000 | 2 | 1 |
 | $120,000 | 4 | 1 |
 
-Conclude what the profiles and interval widths support for segmentation, including why they do not establish who will respond to new outreach.
-
-Choose the code operations and their sequence. Upload your report to Canvas's **Exercise 8** assignment.
+Conclude what the profiles and interval widths suggest for outreach. Upload your report to Canvas's **Exercise 6** assignment.
 
 ## Grading Rubric
 
 **Five points total, one point each for:**
 
 - **Data and models:** scale income to thousands, use the same complete observations for both specified models, report the sample size, and fit both models correctly.
-- **Model evaluation:** report both R-squared values, select the higher-fitting model, quantify the improvement, and explain a limitation of training R-squared.
+- **Model evaluation:** report both R-squared values, select the higher-fitting model, quantify the improvement.
 - **Coefficient uncertainty:** report the selected model's 95% coefficient confidence intervals and correctly interpret all three slopes in dollars, holding the other included characteristics fixed.
 - **Profile predictions:** report predicted spending and 95% individual prediction intervals for all four specified profiles, with matching predictor units and an individual-outcome interpretation.
 - **Client report:** submit a Word document rendered from Quarto with code, results, and a business conclusion that recognizes individual uncertainty and the limits of historical associations for outreach decisions.
@@ -95,7 +93,7 @@ bind_rows(
 
 The income-only model has R-squared **0.3939**; the household model has **0.5031**. The household model fits these observations better, explaining about **50.3%** of spending variation versus **39.4%**, an improvement of **10.9 percentage points**. About **49.7%** of variation remains unexplained.
 
-Use the household model for this report because its higher training fit and interpretable household characteristics address the client's profile question. Adding predictors to a nested least-squares model cannot lower training R-squared; this comparison does not establish accuracy on new customers, causality, or the effectiveness of outreach.
+Use the household model for this report because its better fit and interpretable household characteristics address the client's profile question.
 
 ## Interpret Coefficient Confidence Intervals
 
@@ -103,12 +101,12 @@ Use the household model for this report because its higher training fit and inte
 tidy(fit_segments, conf.int = TRUE)
 ```
 
-- **Income:** holding household size and ownership fixed, another $1,000 of annual household income is associated with about **$2.42 more past spending** at this retailer. The 95% coefficient interval is approximately **$2.36–$2.48 per $1,000 of income**.
+- **Income:** holding household size and ownership fixed, another \$1,000 of annual household income is associated with about **\$2.42 more past spending** at this retailer. The 95% coefficient interval is approximately **$2.36–$2.48 per $1,000 of income**.
 - **Household size:** holding income and ownership fixed, an additional household member is associated with about **$46.87 more past spending**. The 95% coefficient interval is approximately **$44.57–$49.16 per person**.
 - **Homeowner:** holding income and household size fixed, owners average about **$77.89 more past spending** than nonowners. The 95% coefficient interval is approximately **$71.37–$84.41**.
 - **Intercept:** the estimate is about **$606.96**, with a 95% coefficient interval of **$598.03–$615.88**. Zero income and zero household members are outside the observed ranges, so this is not a meaningful customer profile.
 
-Under the model assumptions, repeated use of the 95% confidence-interval procedure would contain the true coefficient in about 95% of samples. These intervals describe uncertainty in coefficients, not the range containing 95% of individual customers' spending or a 95% probability for a fixed coefficient. All three slope intervals exclude zero, corresponding to two-sided significance at the 5% level under the same assumptions. Statistical significance does not establish outreach effectiveness.
+Under the model assumptions, repeated use of the 95% confidence-interval procedure would contain the true coefficient in about 95% of samples. These intervals describe uncertainty in coefficients, not the range containing 95% of individual customers' spending or a 95% probability for a fixed coefficient. All three slope intervals exclude zero, corresponding to two-sided significance at the 5% level under the same assumptions.
 
 ## Predict the Four Profiles
 
@@ -130,9 +128,9 @@ profile_predictions <- bind_cols(
 profile_predictions
 ```
 
-These household characteristics are within their observed ranges. Fitted spending is approximately **$750.65, $894.35, $972.24, and $1,162.80**, respectively. These are model-implied historical-spending profiles, not forecasts of next year's spending or effects of changing a household's characteristics.
+These household characteristics are within their observed ranges. Fitted spending is approximately **$750.65, $894.35, $972.24, and $1,162.80**, respectively.
 
-The `.pred_lower` and `.pred_upper` columns form **95% prediction intervals for individual outcomes** under the model assumptions. They include uncertainty in the estimated mean and variation among individual customers. They are wider than mean-response confidence intervals and do not account for every possible model error or a changed business environment.
+The `.pred_lower` and `.pred_upper` columns form **95% prediction intervals for individual outcomes** under the model assumptions. They include uncertainty in the estimated mean and variation among individual customers.
 
 ## Recommendation to the Retailer
 

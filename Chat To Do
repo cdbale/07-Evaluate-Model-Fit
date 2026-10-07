@@ -37,14 +37,45 @@ Working-tree caution: 9-Evaluate-Model-Fit.html had prior external changes and w
 USER REQUESTED CHANGES
 (Reserved for Cam's additions; no user-authored content existed when this file was created.)
 
-22. Correct pre-boundary p-value interpretation — slide 15 Handling Model Uncertainty (and matching setup question on slide 14).
-Issue: Slide 15 says p = .30 means a 30% probability that the true relationship is zero. A p-value instead conditions on the null hypothesis and model assumptions; it is not the probability that the null is true. The setup asks for that reverse conditional probability.
-Proposed correction: Ask how surprising an estimate this far from zero would be if the true coefficient were zero. Explain that p = .30 means a 30% probability of a test statistic at least as extreme as the observed one under that null and its assumptions, not a 30% probability of no relationship.
-Decision: Pending — Approve / Alter / Reject. Outside Cam's requested slide-20-onward boundary.
-Effect: Corrects a substantive inference misconception without changing the fitted homeowner examples.
-Status: Needs update — latest review completed #26. Example now includes both tails and conditions correctly on the null. Setup questions still say at least as large; use at least as far from zero in either direction. Exact lm p-value refers to the t-statistic, accounting for standard error. Starter already uses that definition. No slide edits in this review.
+22. Clarify two-sided p-value wording — slides 14–15 Handling Model Uncertainty.
+Issue: The introductory questions say at least as large, suggesting one-sided inference. The example now correctly conditions on a zero true coefficient and includes both tails, but uses beta for both the true coefficient and its estimate and states raw-estimate tail probabilities rather than the model's standardized test.
+Proposed correction: Assuming the true coefficient is zero and the model assumptions hold, how likely is a result at least as extreme as ours, in either direction? For p = .30, this probability is 30%. Replace the raw-coefficient inequalities with this plain-language explanation; no test derivation or new slide is needed.
+Decision: Pending — Approve / Alter / Reject. Current request authorizes suggestions, not slide corrections.
+Effect: Clarifies the two-sided interpretation without changing code, numerical examples or taught concepts. Starter retains its existing correct definition.
+Status: Needs update — latest review completed #31 on 2026-10-07. No slide wording edits were applied. Historical reviews below describe previous versions; latest entry supersedes them.
 
 Latest review of #22 — 2026-10-06:
 Cam changed the example to condition on the true coefficient being zero. The revision still describes the probability of estimating exactly 1.25, rather than the probability of a test statistic at least as extreme as observed. Slides 14–15 still introduce the reverse conditional question (probability the null is true). Review requested and completed; correcting these slides awaits Cam's requested decision. The 5% significance threshold is appropriate for the stated conventional two-sided test.
 Latest review of #22 — superseding earlier review, 2026-10-06:
 Cam now conditions correctly on the null and uses an upper-tail inequality. Explain both tails and the test statistic (estimate divided by standard error) to match the model's two-sided p-value. See completed #25 for verified review and source. No slide or starter edits in this review.
+
+34. Qualify significance wording — slide 24 p-values vs. Confidence Intervals.
+Evidence: The slide equates an interval excluding zero with p <= .05 and says an interval containing zero means the data gives no evidence of a relationship.
+Proposed simple replacement: For these models, a 95% interval excluding zero corresponds to a two-sided p-value below .05. If it includes zero, the data do not provide strong enough evidence of a relationship at the 5% level.
+Effect: No extra concepts or code; starter should use the accurate statement while slide correction remains pending.
+Decision: Pending — Approve / Alter / Reject.
+
+Latest review of #22 — 2026-10-07 (slides 14–15 Handling Model Uncertainty):
+Both introductory questions still say at least as large. The example uses the same beta symbol for the fixed true coefficient and random estimate, and raw coefficient tails do not exactly describe lm's standardized two-sided test.
+Suggested focused wording: Assuming the true coefficient is zero and the model assumptions hold, how likely is a result at least as extreme as ours, in either direction? A p-value of .30 means a 30% chance of a test statistic at least as extreme as the observed one under those assumptions. This avoids additional derivation or distribution details.
+Decision remains Pending — Approve / Alter / Reject. Starter retains its existing precise definition. Official R summary.lm documentation confirms two-sided coefficient p-values.
+
+
+CURRENT LOCAL AUDIT — 2026-10-07; supersedes earlier current-count/status notes.
+1. Slides: correctness review Verified (#31); renumbering Verified (#32). Pending wording suggestions #22 (slides 14–15) and #34 (slide 24). Current authoritative source has 39 slides; Cam's rendered HTML preserved, so exercise renumbering awaits a separately requested render.
+2. Exercise/solution: Verified — Exercise 6 instructions match slides verbatim; renamed solution with unchanged valid analysis and five-point rubric.
+3. Starter: Verified — current slide sequence, names and supplied code matched; correct statistical wording retained. All 19 chunks checked with temporary fixtures.
+4. Prior-material reduction: Verified — existing two-of-four (50%) eligible-step gaps retained; Lecture 06 preparation and model-fitting patterns confirmed locally. Open activities remain blank.
+5–7. Canvas exercise description, rubric note and materials upload: Needs update — earlier pending #9 remains deferred; no fresh Canvas access or edits. Local renumbering does not imply Canvas assignment IDs or names have changed.
+8. GitHub submission: Blocked — pending #10, awaiting express permission. Local main at 92f446a; no commit/push.
+9. Published slides/Canvas slide link: Needs update — pending #10. No render/deployment or external-link change requested in this turn.
+
+35. Publish all finalized Lecture 07 changes — 2026-10-07.
+Decision: Approve — Cam explicitly requested commit/push of all changes and confirmed final HTML/index rendering.
+Plan: Commit all lecture repository changes, including Cam's renames to 7 Evaluate Model Fit.Rmd, 7-Evaluate-Model-Fit.html and 07-starter-code.qmd; push main to origin; verify the Pages deployment against local index.html; update/read back the Canvas 07 - Slides URL with a version tied to verified publication. No additional rendering.
+Status: In progress. This authorizes the publication portions of pending #10.
+
+36. Synchronize Lecture 07 materials and Exercise 6 on Canvas — 2026-10-07.
+Decision: Approve — directly requested. Verified Fall 2026 course 38688 (both sections), Inference module 415182, Evaluate Model Fit header 3180654, Exercise 6 assignment 1452130 and Grade Exercise 6 assignment 1452148.
+Plan: Upload final 7-Evaluate-Model-Fit.html and 07-starter-code.qmd as module files under Evaluate Model Fit; copy finalized slide instructions into Exercise 6; add the rubric-in-solution reference to Grade Exercise 6 while preserving existing instructions; upload Exercise 6 Solution.qmd and schedule availability for 5 p.m. Mountain on the exercise due date. Current due date 2026-10-20 15:30 MDT; solution release 2026-10-20 17:00 MDT (23:00 UTC). Preserve assignment publication, due and lock settings. Shared CSV/PDF already appear in Inference; verify rather than duplicate them.
+Status: In progress. Current authorization supersedes pending #9's old Exercise 8 targets; those unrelated assignments will not be edited.
