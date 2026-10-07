@@ -6,21 +6,6 @@ AUTHORIZED WORK — #1–#8 and #11–#16 verified; assessment #17 and requested
 
 PENDING SUGGESTIONS — NOT AUTHORIZED
 
-9. Canvas exercise and grading descriptions — Fall 2026 MKTG 411-001/002, course 38688; Exercise 8 (1452115), Grade Exercise 8 (1452133).
-Issue/evidence: Exercise 8 description is empty; Grade Exercise 8 lacks the rubric-in-solution note. The local solution contains a five-point rubric.
-Proposal: After separate authorization and exercise reconciliation, save the final instructions and add the rubric note; verify readbacks.
-Effect: Canvas assignments are read-only for this request. The revised exercise instructions, rubric note, starter, solution, CSV and PDF await separately authorized Canvas distribution.
-Decision: Pending — Approve / Alter / Reject.
-Status: Needs update — outside requested slide scope.
-
-10. Publication — generated HTML, GitHub main, GitHub Pages, Canvas lecture link.
-Issue/evidence: Existing index.html and 9-Evaluate-Model-Fit.html predate the current source and omit its newer context. Condensed Rmd requires a future render/deployment to change the published slides.
-Verified read-only evidence: Canvas Inference module item 3180658 (07 - Slides) links to https://cdbale.github.io/07-Evaluate-Model-Fit/. A fresh HTTP fetch returned 200 and the old 29-slide HTML, without Today's Learning Goals or the new Exercise 8 report heading. This was read-only evidence before migration; the final customer-data source now has 35 slides. Published output has not been regenerated or rechecked in this migration turn. An older Canvas HTML attachment remains at module item 3180659 / file 13545280. Current Canvas starter file: 09-starter-code.qmd, 13545278; solution file: Exercise 8 Solution.qmd, 13545277.
-Proposal: If requested, render and verify, commit/push only intended changes, verify Pages and update/read back the Canvas slide link as needed.
-Effect: Depends on a separately authorized render and express GitHub permission; publishing is outside this request.
-Decision: Pending — Approve / Alter / Reject.
-Status: Blocked — local named HTML render is complete in #28; GitHub/Pages publication and any Canvas hyperlink update still await authorization. Published index.html has not been updated.
-
 FINAL LOCAL SKILL CHECKLIST AUDIT — 2026-10-05
 All requested local source/data work and approved suggestions are verified. Canvas and Pages evidence below comes from the preceding read-only review; no fresh external calls or writes occurred during the migration. Cam explicitly left #9–#10 pending.
 1. Slides: Verified — authoritative Rmd has 35 slides, goals immediately after title, coherent historical customer-spending case, no parameter-recovery exercise, Cam's current homeowner uncertainty walkthrough and requested 100-sample coverage illustration, open-ended live coding and concluding exercise. All 17 R chunks parse/execute; dollar units and numerical interpretations checked. Local named HTML rendered for #28; table structure and embedded sorted plot inspected offline. Browser-level visual inspection unavailable due file:// policy.
@@ -70,12 +55,17 @@ CURRENT LOCAL AUDIT — 2026-10-07; supersedes earlier current-count/status note
 8. GitHub submission: Blocked — pending #10, awaiting express permission. Local main at 92f446a; no commit/push.
 9. Published slides/Canvas slide link: Needs update — pending #10. No render/deployment or external-link change requested in this turn.
 
-35. Publish all finalized Lecture 07 changes — 2026-10-07.
-Decision: Approve — Cam explicitly requested commit/push of all changes and confirmed final HTML/index rendering.
-Plan: Commit all lecture repository changes, including Cam's renames to 7 Evaluate Model Fit.Rmd, 7-Evaluate-Model-Fit.html and 07-starter-code.qmd; push main to origin; verify the Pages deployment against local index.html; update/read back the Canvas 07 - Slides URL with a version tied to verified publication. No additional rendering.
-Status: In progress. This authorizes the publication portions of pending #10.
 
-36. Synchronize Lecture 07 materials and Exercise 6 on Canvas — 2026-10-07.
-Decision: Approve — directly requested. Verified Fall 2026 course 38688 (both sections), Inference module 415182, Evaluate Model Fit header 3180654, Exercise 6 assignment 1452130 and Grade Exercise 6 assignment 1452148.
-Plan: Upload final 7-Evaluate-Model-Fit.html and 07-starter-code.qmd as module files under Evaluate Model Fit; copy finalized slide instructions into Exercise 6; add the rubric-in-solution reference to Grade Exercise 6 while preserving existing instructions; upload Exercise 6 Solution.qmd and schedule availability for 5 p.m. Mountain on the exercise due date. Current due date 2026-10-20 15:30 MDT; solution release 2026-10-20 17:00 MDT (23:00 UTC). Preserve assignment publication, due and lock settings. Shared CSV/PDF already appear in Inference; verify rather than duplicate them.
-Status: In progress. Current authorization supersedes pending #9's old Exercise 8 targets; those unrelated assignments will not be edited.
+
+37. Optional Canvas housekeeping — Exercise 6 / Grade Exercise 6.
+Observation: Both assignments are unpublished and their existing module items are still under Explanatory Variables, whereas the new slides/starter/solution are correctly under Evaluate Model Fit. Their dates and publication states were preserved during the requested description updates.
+Proposal: If Cam wants, move the two existing assignment module items under Evaluate Model Fit; separately specify when the assignments should be published. Preserve dates and all other settings.
+Decision: Pending — Approve / Alter / Reject. This does not block the completed requested uploads or description updates.
+
+CURRENT PUBLICATION AUDIT — 2026-10-07; supersedes historical pending #9/#10 and earlier publication status notes.
+1–4. Local slides, Exercise 6 solution, starter and retained review gaps: prior authorized edits Verified; Cam finalized and rendered the files. Latest renamed files published without re-rendering. Pending source wording suggestions #22/#34 were not applied without approval.
+5. Canvas Exercise 6 description: Verified — final slide instructions saved and read back, unrelated assignment settings preserved.
+6. Canvas Grade Exercise 6 rubric note: Verified — linked rubric-in-solution reference saved; previous grading instructions retained.
+7. Materials upload: Verified — final HTML, renamed starter and solution uploaded under Evaluate Model Fit; download bytes and module targets verified. Solution scheduled for October 20, 2026 at 5 p.m. Mountain time. Shared data and dictionary already available and checked.
+8. GitHub submission: Verified — final lecture content pushed to main; tracking synchronization recorded for the final tracking-only push.
+9. Pages / Canvas slide link: Verified — successful deployment and saved versioned Canvas hyperlink fetched; deployed content matches committed index.html. Final remote/head and link checks recorded in tmp/lecture07-publish.
