@@ -3257,9 +3257,9 @@ margin: 0 auto;
 <li><strong>Predict:</strong> what spending does the model imply for a customer profile, and how uncertain is an individual outcome?</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Evaluate </h2><h3> Planning Customer Outreach</h3></hgroup><article  id="evaluate-planning-customer-outreach">
+</article></slide><slide class=""><hgroup><h2>Evaluate </h2><h3> Planning Customer Targeting</h3></hgroup><article  id="evaluate-planning-customer-targeting">
 
-<p>The home-goods retailer is developing customer segments for outreach. It wants to understand which household profiles tend to spend more and how much spending varies within a profile.</p>
+<p>The home-goods retailer is developing customer segments for targeting. It wants to understand which household profiles tend to spend more and how much spending varies within a profile.</p>
 
 </article></slide><slide class=""><hgroup><h2>Getting Started</h2></hgroup><article  id="getting-started">
 
@@ -3375,11 +3375,11 @@ nrow(customer_model_data)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Handling Model Uncertainty</h2></hgroup><article  id="handling-model-uncertainty">
 
-<p>Key Question: Assume that there is no relationship between owning a home and customer spend. Then, how likely is it that our model produces an estimate at least as extreme as the one we saw?</p>
+<p>Key Question: If the true homeowner coefficient were zero, how surprising would an estimate this far from zero be?</p>
 
 </article></slide><slide class=""><hgroup><h2>Handling Model Uncertainty</h2></hgroup><article  id="handling-model-uncertainty-1">
 
-<p>Key Question: Assume that there is no relationship between owning a home and customer spend. Then, how likely is it that our model produces an estimate at least as large as the one we saw?</p>
+<p>Key Question: If the true homeowner coefficient were zero, how surprising would an estimate this far from zero be?</p>
 
 <p><strong>A <em>p</em>-value answers this question!</strong></p>
 
@@ -3723,7 +3723,7 @@ No
 <p>&ldquo;95% of our customers spend between $2.51 and $2.63.&rdquo;</p>
 </blockquote>
 
-<p>Explain what is wrong with that statement. Write a correct interpretation that is based on the outcome’s units.</p>
+<p>Explain what is wrong with that statement. Write a correct interpretation.</p>
 
 </article></slide><slide class=""><hgroup><h2>Quick Review</h2></hgroup><article  id="quick-review">
 
@@ -3846,13 +3846,34 @@ predict(fit_income, new_data = income_profiles) |&gt;
 
 <p>*This assumes an identical 12-month period to the 12 months the data are based on. Changes in product assortment, availability, economic factors, etc. could play a role in the actual outcome.</p>
 
+</article></slide><slide class=""><hgroup><h2>Analytics Workflow Steps (so far)</h2></hgroup><article  id="analytics-workflow-steps-so-far">
+
+<ul>
+<li>Unit 1 Tasks
+
+<ul>
+<li>Import and clean data</li>
+<li>Exploratory analysis (visualizations) &ldquo;What preliminary evidence can I uncover about the relationship between [income] and [spending]?&rdquo;</li>
+</ul></li>
+<li>Unit 2 Tasks
+
+<ul>
+<li>&ldquo;Build&rdquo; a model: decide which variables are likely associated with the outcome, and what those associations might be</li>
+<li>Fit the model (estimates the coefficients)</li>
+<li>Evaluate the coefficient estimates: look at confidence intervals to determine (1) whether they suggest a relationship, and (2) whether that relationship is significant in practice</li>
+<li>Predict for customer profiles: what outcome values does the model predict for different consumer profiles?</li>
+</ul></li>
+</ul>
+
 </article></slide><slide class=""><hgroup><h2>Live Coding</h2></hgroup><article  id="live-coding">
 
-<p>The retailer wants a useful description of its <strong>high-value households</strong> before planning its next outreach campaign. Leadership also wants to know how much confidence to place in that description.</p>
+<p>The retailer wants a useful description of its <strong>high-value households</strong> before planning its next targeting campaign. Leadership also wants to know how much confidence to place in that description.</p>
 
-<p>What should &ldquo;high-value&rdquo; mean here? What evidence would support a useful customer profile? How would you communicate uncertainty and the limits of a recommendation?</p>
+<p>What should &ldquo;high-value&rdquo; mean here?</p>
 
-<p>Let’s develop an analysis and a brief recommendation for the client.</p>
+<p>What evidence would help us identify a useful customer profile?</p>
+
+<p>Let’s come up with a recommendation and communicate our uncertainty appropriately.</p>
 
 </article></slide><slide class=""><hgroup><h2>Wrapping Up</h2></hgroup><article  id="wrapping-up">
 
@@ -3873,9 +3894,9 @@ predict(fit_income, new_data = income_profiles) |&gt;
 
 <p><em>Artwork by <span class="cite">@allison_horst</span></em></p>
 
-</article></slide><slide class=""><hgroup><h2>Exercise 6 </h2><h3> Customer Segments for Outreach</h3></hgroup><article  id="exercise-6-customer-segments-for-outreach">
+</article></slide><slide class=""><hgroup><h2>Exercise 6 </h2><h3> Customer Segments for Targeting</h3></hgroup><article  id="exercise-6-customer-segments-for-targeting">
 
-<p>The home-goods retailer is developing outreach segments. It wants to know whether household size and homeownership add useful information about past customer value beyond income, and how much spending variation remains within a household profile.</p>
+<p>The home-goods retailer is developing targeting segments. It wants to know whether household size and homeownership add useful information about past customer value beyond income, and how much spending variation remains within a household profile.</p>
 
 <p>Use <code>home_goods_customers.csv</code> and <code>data_dictionary.pdf</code>. The outcome is <code>PreviousSpend</code>, spending at this retailer over the previous 12 months. Express annual <code>HouseholdIncome</code> in thousands of dollars.</p>
 
@@ -3886,7 +3907,7 @@ predict(fit_income, new_data = income_profiles) |&gt;
 <p>Submit a Word document rendered from Quarto with your code, results, and interpretation. Include:</p>
 
 <ul>
-<li>Both fitted models and their \(R^2\) values; identify the better fit and explain the improvement and the limits of this comparison.</li>
+<li>Both fitted models and their \(R^2\) values; identify the better fit and explain the improvement.</li>
 <li>The better-fitting model’s coefficient estimates and 95% confidence intervals; interpret each slope in dollars, holding the other included characteristics fixed.</li>
 </ul>
 
@@ -3922,7 +3943,7 @@ predict(fit_income, new_data = income_profiles) |&gt;
 </tr>
 </table>
 
-<p>Conclude what the profiles and interval widths suggest for outreach. Upload your report to Canvas’s <strong>Exercise 6</strong> assignment.</p></article></slide>
+<p>Conclude what the profiles and interval widths suggest for targeting. Upload your report to Canvas’s <strong>Exercise 6</strong> assignment.</p></article></slide>
 
 
   <slide class="backdrop"></slide>

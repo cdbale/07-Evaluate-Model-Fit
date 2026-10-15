@@ -1,5 +1,5 @@
 ---
-title: "09-Starter-Code"
+title: "07-Starter-Code"
 format: docx
 editor: visual
 ---
@@ -21,9 +21,9 @@ Last class, we **built** and **fit** a model of customer spending. Today we will
 - **Evaluate:** how useful and precise are the estimated relationships?
 - **Predict:** what spending does the model imply for a customer profile, and how uncertain is an individual outcome?
 
-## Evaluate | Planning Customer Outreach
+## Evaluate \| Planning Customer Targeting
 
-The home-goods retailer is developing customer segments for outreach. It wants to understand which household profiles tend to spend more and how much spending varies within a profile.
+The home-goods retailer is developing customer segments for targeting. It wants to understand which household profiles tend to spend more and how much spending varies within a profile.
 
 ## Getting Started
 
@@ -71,16 +71,16 @@ For a model with one continuous predictor:
 
 $$\hat{y} = \beta_0 + \beta_1 x$$
 
-- **Slope ($\beta_1$):** a one-unit increase in $x$ is associated with a $\beta_1$-unit difference in $y$.
-- **Intercept ($\beta_0$):** the predicted mean of $y$ when $x = 0$; interpret it in context only if zero is meaningful and within the relevant range of the original data.
+- **Slope (**$\beta_1$): a one-unit increase in $x$ is associated with a $\beta_1$-unit difference in $y$.
+- **Intercept (**$\beta_0$): the predicted mean of $y$ when $x = 0$; interpret it in context only if zero is meaningful and within the relevant range of the original data.
 - In a model with multiple predictors, interpret each slope **holding the other included predictors fixed**.
 
-## Interpret IncomeThousands | Customer Spending
+## Interpret IncomeThousands \| Customer Spending
 
 $$\widehat{PreviousSpend} = 760.42 + 2.57 \times IncomeThousands$$
 
-- **Slope:** another $1,000 of annual household income is associated with about $2.57 more spending at this retailer over 12 months.
-- **Intercept:** predicted spending at zero income; zero is outside the observed $15,000–$350,000 income range.
+- **Slope:** another \$1,000 of annual household income is associated with about \$2.57 more spending at this retailer over 12 months.
+- **Intercept:** predicted spending at zero income; zero is outside the observed \$15,000–\$350,000 income range.
 
 ## What about a Binary Predictor?
 
@@ -102,19 +102,19 @@ For a model with one predictor coded $x = 0$ or $x = 1$:
 
 $$\hat{y} = \beta_0 + \beta_1 x$$
 
-- **Reference group ($x = 0$):** predicted mean $y$ is $\beta_0$.
-- **Comparison group ($x = 1$):** predicted mean $y$ is $\beta_0 + \beta_1$.
-- **Slope ($\beta_1$):** the predicted mean difference, **group 1 minus group 0**, in $y$'s units.
+- **Reference group (**$x = 0$): predicted mean $y$ is $\beta_0$.
+- **Comparison group (**$x = 1$): predicted mean $y$ is $\beta_0 + \beta_1$.
+- **Slope (**$\beta_1$): the predicted mean difference, **group 1 minus group 0**, in $y$'s units.
 
 In a model with multiple predictors, compare the groups **holding the other included predictors fixed**.
 
-## Interpret Homeowner | Customer Spending
+## Interpret Homeowner \| Customer Spending
 
 $$\widehat{PreviousSpend} = 921.12 + 118.81 \times Homeowner$$
 
-- **Intercept:** estimated mean past spending for customers who do not own their primary residence, about $921.12.
-- **Slope:** owners spent about $118.81 more on average than nonowners in this model.
-- For owners, predicted spending is $921.12 + $118.81 = **$1,039.93**.
+- **Intercept:** estimated mean past spending for customers who do not own their primary residence, about \$921.12.
+- **Slope:** owners spent about \$118.81 more on average than nonowners in this model.
+- For owners, predicted spending is \$921.12 + \$118.81 = **\$1,039.93**.
 
 Remember, this **does not** establish that owning a home causes extra purchases.
 
@@ -134,7 +134,7 @@ Key Question: If the true homeowner coefficient were zero, how surprising would 
 
 **A *p*-value measures how surprising the result would be under a zero-coefficient null hypothesis and the model assumptions.**
 
-Example: imagine your model estimates $\hat{\beta}_1 = 1.25$ with a two-sided *p*-value of 0.30. If $\beta_1$ were actually zero and the model assumptions held, a test statistic at least as extreme as the observed one, in either direction, would occur with probability 30%. This is not the probability that the true coefficient is zero.
+Example: imagine your model reports a *p*-value of 0.30 for $\beta_1 = 1.25$. Then, *the probability* that your model would estimate $\beta_1 \ge 1.25$ (or $\beta_1 \le -1.25$) when $\beta_1$ **is actually 0** is equal to 30%.
 
 We typically look for the probability to be 5% or less (*p*-value $<= 0.05$) before claiming "statistical significance".
 
@@ -160,13 +160,13 @@ A **confidence interval** quantifies the uncertainty around a model point estima
 tidy(fit_owner, conf.int = TRUE)
 ```
 
-For the effect of home ownership on spending, the 95% interval is approximately **$110 - $128**.
+For the effect of home ownership on spending, the 95% interval is approximately **\$110 - \$128**.
 
 ## Reporting Confidence Interval Results
 
 You:
 
-"I am 95% confident that the true effect of home ownership on spending is between **$110** and **$128**. We can't establish that home ownership *causes* more spending, but these results establish that home owners spend significantly more than non-homeowners, on average."
+"I am 95% confident that the true effect of home ownership on spending is between **\$110** and **\$128**. We can't establish that home ownership *causes* more spending, but these results establish that home owners spend significantly more than non-homeowners, on average."
 
 ## What Does 95% Mean?
 
@@ -174,12 +174,12 @@ Under the model assumptions, about **95% of intervals constructed by repeating t
 
 - The coefficient is fixed; the interval changes with the sample.
 - The 95% refers to the procedure's coverage; it is not
-  * A probability the interval contains the coefficient
-  * A range of values over customers
+  - A probability the interval contains the coefficient
+  - A range of values over customers
 
-## Repeating the Study | 100 Hypothetical Samples {.coverage-table}
+## Repeating the Study \| 100 Hypothetical Samples {.coverage-table}
 
-For this illustration only, suppose the **true homeowner coefficient is $120**. Collect 100 hypothetical samples of 9800 customers, refit the spending model each time, and calculate a 95% confidence interval.
+For this illustration only, suppose the **true homeowner coefficient is \$120**. Collect 100 hypothetical samples of 9800 customers, refit the spending model each time, and calculate a 95% confidence interval.
 
 ```{r echo=FALSE}
 coverage_true_beta <- 120
@@ -258,27 +258,27 @@ coverage_plot <- ggplot(coverage_plot_data,
 coverage_plot
 ```
 
-## Apply Confidence Intervals | Income
+## Apply Confidence Intervals \| Income
 
 ```{r}
 tidy(fit_income, conf.int = TRUE)
 ```
 
-The income slope's 95% interval is **$2.51–$2.63** in additional past spending per additional $1,000 of annual household income.
+The income slope's 95% interval is **\$2.51–\$2.63** in additional past spending per additional \$1,000 of annual household income.
 
 ## *p*-values vs. Confidence Intervals
 
-For these linear models, a 95% confidence interval that excludes zero corresponds to a two-sided *p*-value below 0.05, under the same model assumptions.
+When a 95% confidence interval excludes zero, it corresponds to *p*-value $\le 0.05$. ("statistical significance")
 
-If a 95% interval includes zero, it does not prove there is no relationship. The data do not provide strong enough evidence of a relationship at the 5% level.
+If a 95% interval includes zero, it *does not* prove there is no relationship between your dependent and independent variables. It means the evidence from the data is not strong enough to establish a relationship at the 5% level.
 
-## Your Turn! | Explain the Interval
+## Your Turn! \| Explain the Interval
 
 Your coworker sees the customer income confidence interval of \$2.51–\$2.63 and says:
 
-> "95% of our customers spend between $2.51 and $2.63."
+> "95% of our customers spend between \$2.51 and \$2.63."
 
-Explain what is wrong with that statement. Write a correct interpretation that is based on the outcome's units.
+Explain what is wrong with that statement. Write a correct interpretation.
 
 Write your interpretation here.
 
@@ -317,7 +317,7 @@ As in Lecture 06, each slope describes a difference **holding the other included
 
 ## Model Comparison: R-Squared
 
-**$R^2$** is the proportion of observed outcome variation explained by the fitted model.
+$R^2$ is the proportion of observed outcome variation explained by the fitted model.
 
 ```{r, eval=FALSE}
 bind_rows(
@@ -359,7 +359,7 @@ The model coefficients we've interpreted so far tell us about *average* effects.
 
 ## Prediction: Income Profiles
 
-Using the **income-only model**, what is the predicted (or expected) spend at household incomes of $40,000, \$80,000 and \$120,000?
+Using the **income-only model**, what is the predicted (or expected) spend at household incomes of \$40,000, \$80,000 and \$120,000?
 
 ```{r}
 income_profiles <- tibble(IncomeThousands = c(40, 80, 120))
@@ -368,7 +368,7 @@ predict(fit_income, new_data = income_profiles) |>
   bind_cols(income_profiles)
 ```
 
-Expected spending is about **$863.21, $966.00 and $1,068.79**, respectively.
+Expected spending is about **\$863.21, \$966.00 and \$1,068.79**, respectively.
 
 ## Prediction Intervals
 
@@ -388,65 +388,21 @@ The default **95% prediction interval** is for an individual-level outcome. It a
 
 You:
 
-"I am 95% confident that a consumer with $40k income would spend approximately \$528 - \$1198 over a 12 month period."*
+"I am 95% confident that a consumer with \$40k income would spend approximately \$528 - \$1198 over a 12 month period."\*
 
-*This assumes an identical 12-month period to the 12 months the data are based on. Changes in product assortment, availability, economic factors, etc. could play a role in the actual outcome.
+\*This assumes an identical 12-month period to the 12 months the data are based on. Changes in product assortment, availability, economic factors, etc. could play a role in the actual outcome.
 
 ## Live Coding
 
-The retailer wants a useful description of its **high-value households** before planning its next outreach campaign. Leadership also wants to know how much confidence to place in that description.
+The retailer wants a useful description of its **high-value households** before planning its next targeting campaign. Leadership also wants to know how much confidence to place in that description.
 
-What should "high-value" mean here? What evidence would support a useful customer profile? How would you communicate uncertainty and the limits of a recommendation?
+What should "high-value" mean here? 
 
-Let's develop an analysis and a brief recommendation for the client.
+What evidence would help us identify a useful customer profile? 
+
+Let's come up with a recommendation and communicate our uncertainty appropriately.
 
 ```{r}
 # Develop the live-coding analysis with the class.
 ```
 
-## Wrapping Up
-
-Evaluate customer models using **dollar magnitude, confidence intervals, model fit, and prediction intervals** together.
-
-*Next Time*
-
-- Adding explanatory variables and examining how they change our interpretation.
-
-*Supplementary Material*
-
-- *Tidy Modeling with R* Chapter 6.2-6.3
-- [Faith and Science: Symbiotic Pathways to Truth](https://speeches.byu.edu/talks/jamie-jensen/faith-science-symbiotic-pathways-truth/).
-
-*Artwork by @allison_horst*
-
-## Exercise 6 | Customer Segments for Outreach
-
-The home-goods retailer is developing outreach segments. It wants to know whether household size and homeownership add useful information about past customer value beyond income, and how much spending variation remains within a household profile.
-
-Use `home_goods_customers.csv` and `data_dictionary.pdf`. The outcome is `PreviousSpend`, spending at this retailer over the previous 12 months. Express annual `HouseholdIncome` in thousands of dollars.
-
-Compare an **income-only model** with a model that also includes **HouseholdSize and Homeowner**. Use the same customers with observed values for all model variables and report how many are included.
-
-## Exercise 6: The Client Report
-
-Submit a Word document rendered from Quarto with your code, results, and interpretation. Include:
-
-- Both fitted models and their $R^2$ values; identify the better fit and explain the improvement and the limits of this comparison.
-- The better-fitting model's coefficient estimates and 95% confidence intervals; interpret each slope in dollars, holding the other included characteristics fixed.
-
-## Exercise 6: Predictions and Recommendation
-
-Report predicted spending and **95% individual prediction intervals** from the better-fitting model for these profiles:
-
-| Annual household income | Household size | Homeowner |
-|---:|---:|---:|
-| $40,000 | 1 | 0 |
-| $80,000 | 2 | 0 |
-| $80,000 | 2 | 1 |
-| $120,000 | 4 | 1 |
-
-Conclude what the profiles and interval widths suggest for outreach. Upload your report to Canvas's **Exercise 6** assignment.
-
-```{r}
-# Develop the client report and analysis; choose your approach.
-```

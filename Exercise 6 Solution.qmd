@@ -4,9 +4,9 @@ author: "Cameron Bale"
 format: docx
 ---
 
-## Exercise 6 | Customer Segments for Outreach
+## Exercise 6 | Customer Segments for Targeting
 
-The home-goods retailer is developing outreach segments. It wants to know whether household size and homeownership add useful information about past customer value beyond income, and how much spending variation remains within a household profile.
+The home-goods retailer is developing targeting segments. It wants to know whether household size and homeownership add useful information about past customer value beyond income, and how much spending variation remains within a household profile.
 
 Use `home_goods_customers.csv` and `data_dictionary.pdf`. The outcome is `PreviousSpend`, spending at this retailer over the previous 12 months. Express annual `HouseholdIncome` in thousands of dollars.
 
@@ -16,7 +16,7 @@ Compare an **income-only model** with a model that also includes **HouseholdSize
 
 Submit a Word document rendered from Quarto with your code, results, and interpretation. Include:
 
-- Both fitted models and their $R^2$ values; identify the better fit and explain the improvement and the limits of this comparison.
+- Both fitted models and their $R^2$ values; identify the better fit and explain the improvement.
 - The better-fitting model's coefficient estimates and 95% confidence intervals; interpret each slope in dollars, holding the other included characteristics fixed.
 
 ## Exercise 6: Predictions and Recommendation
@@ -30,7 +30,7 @@ Report predicted spending and **95% individual prediction intervals** from the b
 | $80,000 | 2 | 1 |
 | $120,000 | 4 | 1 |
 
-Conclude what the profiles and interval widths suggest for outreach. Upload your report to Canvas's **Exercise 6** assignment.
+Conclude what the profiles and interval widths suggest for targeting. Upload your report to Canvas's **Exercise 6** assignment.
 
 ## Grading Rubric
 
@@ -40,7 +40,7 @@ Conclude what the profiles and interval widths suggest for outreach. Upload your
 - **Model evaluation:** report both R-squared values, select the higher-fitting model, quantify the improvement.
 - **Coefficient uncertainty:** report the selected model's 95% coefficient confidence intervals and correctly interpret all three slopes in dollars, holding the other included characteristics fixed.
 - **Profile predictions:** report predicted spending and 95% individual prediction intervals for all four specified profiles, with matching predictor units and an individual-outcome interpretation.
-- **Client report:** submit a Word document rendered from Quarto with code, results, and a business conclusion that recognizes individual uncertainty and the limits of historical associations for outreach decisions.
+- **Client report:** submit a Word document rendered from Quarto with code, results, and a business conclusion that recognizes individual uncertainty and the limits of historical associations for targeting decisions.
 
 Award credit for equivalent correct approaches; students do not need to reproduce this code sequence.
 
@@ -134,6 +134,6 @@ The `.pred_lower` and `.pred_upper` columns form **95% prediction intervals for 
 
 ## Recommendation to the Retailer
 
-Income, household size, and homeownership provide useful descriptions of past customer value together, but even the better-fitting model explains only about half of spending variation. The profile averages differ, while the individual prediction intervals overlap substantially. Use these characteristics to describe broad segments when planning outreach research; avoid treating a profile average as a precise prediction for each customer.
+Income, household size, and homeownership provide useful descriptions of past customer value together, but even the better-fitting model explains only about half of spending variation. The profile averages differ, while the individual prediction intervals overlap substantially. Use these characteristics to describe broad segments when planning targeting research; avoid treating a profile average as a precise prediction for each customer.
 
-The records describe historical spending. The analysis does not establish who will respond to a new message, which outreach will increase purchases, or how much a future campaign will earn. Those decisions require evidence about the outreach itself.
+The records describe historical spending. The analysis does not establish who will respond to a new message, which targeting will increase purchases, or how much a future campaign will earn. Those decisions require evidence about the targeting itself.

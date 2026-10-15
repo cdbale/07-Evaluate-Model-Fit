@@ -69,3 +69,8 @@ CURRENT PUBLICATION AUDIT — 2026-10-07; supersedes historical pending #9/#10 a
 7. Materials upload: Verified — final HTML, renamed starter and solution uploaded under Evaluate Model Fit; download bytes and module targets verified. Solution scheduled for October 20, 2026 at 5 p.m. Mountain time. Shared data and dictionary already available and checked.
 8. GitHub submission: Verified — final lecture content pushed to main; tracking synchronization recorded for the final tracking-only push.
 9. Pages / Canvas slide link: Verified — successful deployment and saved versioned Canvas hyperlink fetched; deployed content matches committed index.html. Final remote/head and link checks recorded in tmp/lecture07-publish.
+
+39. Publish latest Lecture 07 materials and synchronize Canvas — 2026-10-15.
+Decision: Approved — Cam requested commit/push of all changes, new HTML/starter/solution uploads, verification of the Pages link, and matching Exercise 6 instructions.
+Scope: Publish current user-edited materials without rendering or statistical wording edits. Update Canvas Exercise 6 to the exact current local instructions; preserve dates, visibility and module placement. Verify uploaded bytes, rubric link, Pages deployment and content. Earlier wording suggestions #22/#34 are declined by Cam's statement that those issues are not a concern.
+Status: In progress.
